@@ -9,7 +9,10 @@ Evaluates MAE, RMSE, R2, Precision, Recall, F1, and saves artifacts with Joblib.
 """
 import csv
 import json
-import joblib
+try:
+    import joblib
+except ImportError:
+    import pickle as joblib
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import List, Dict, Any, Tuple

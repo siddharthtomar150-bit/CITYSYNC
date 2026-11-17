@@ -4,7 +4,10 @@ Loads 4 trained models (Traffic RF, Electricity RF, Water IF, Multi-System IF) v
 provides predictions with uncertainty intervals, and surfaces model telemetry.
 """
 import json
-import joblib
+try:
+    import joblib
+except ImportError:
+    import pickle as joblib
 from pathlib import Path
 from typing import Dict, Any, List, Optional
 from app.core.logger import logger
