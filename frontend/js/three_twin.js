@@ -59,6 +59,8 @@ class Bengaluru3DDigitalTwin {
     this.beaconLights = [];
     this.cityMapTexture = null;
     this.showWholeCityMap = true;
+    this.buildingMode = 'full';
+    this.buildingMeshes = [];
 
     // Weather & Atmosphere
     this.rainParticles = null;
@@ -108,9 +110,9 @@ class Bengaluru3DDigitalTwin {
     this.scene.background = new THREE.Color(0x060913);
     this.scene.fog = new THREE.FogExp2(0x060913, 0.0028);
 
-    // 2. Camera Setup
+    // 2. Camera Setup (Expansive High-Altitude Overview of Whole Bengaluru)
     this.camera = new THREE.PerspectiveCamera(45, width / height, 1, 3500);
-    this.camera.position.set(0, 260, 340);
+    this.camera.position.set(0, 480, 560);
 
     // 3. WebGL Renderer with High-Fidelity Soft Shadows
     this.renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: 'high-performance' });
@@ -618,24 +620,24 @@ class Bengaluru3DDigitalTwin {
     });
     this.buildingWindowMaterials.push(buildingMat);
 
-    // Urban Clusters across Bengaluru:
-    // 1. CBD / MG Road / Richmond Town (Around x: 10 to 45, z: -40 to 10)
-    this.generateBuildingCluster(20, -15, 36, 18, 70, buildingMat);
+    // Urban Clusters across Bengaluru (moderated heights so ground city map & roads remain unobstructed):
+    // 1. CBD / MG Road / Richmond Town
+    this.generateBuildingCluster(20, -15, 28, 14, 38, buildingMat);
 
-    // 2. Koramangala / Indiranagar Tech Corridor (Around x: 50 to 90, z: 20 to 60)
-    this.generateBuildingCluster(65, 35, 28, 14, 52, buildingMat);
+    // 2. Koramangala / Indiranagar Tech Corridor
+    this.generateBuildingCluster(65, 35, 22, 12, 30, buildingMat);
 
-    // 3. Bellandur / Marathahalli IT Corridor (Around x: 120 to 160, z: 20 to 60)
-    this.generateBuildingCluster(140, 40, 24, 16, 60, buildingMat);
+    // 3. Bellandur / Marathahalli IT Corridor
+    this.generateBuildingCluster(140, 40, 18, 12, 32, buildingMat);
 
-    // 4. Whitefield IT Hub (Around x: 175 to 215, z: -35 to 5)
-    this.generateBuildingCluster(195, -15, 20, 18, 55, buildingMat);
+    // 4. Whitefield IT Hub
+    this.generateBuildingCluster(195, -15, 16, 12, 34, buildingMat);
 
-    // 5. Electronic City Campus Cluster (Around x: 75 to 110, z: 155 to 195)
-    this.generateBuildingCluster(90, 175, 22, 12, 45, buildingMat);
+    // 5. Electronic City Campus Cluster
+    this.generateBuildingCluster(90, 175, 16, 10, 26, buildingMat);
 
-    // 6. Hebbal / Manyata Tech Park Cluster (Around x: -10 to 25, z: -80 to -115)
-    this.generateBuildingCluster(5, -95, 20, 15, 58, buildingMat);
+    // 6. Hebbal / Manyata Tech Park Cluster
+    this.generateBuildingCluster(5, -95, 14, 10, 28, buildingMat);
   }
 
   generateWindowCanvasTexture() {
@@ -718,6 +720,7 @@ class Bengaluru3DDigitalTwin {
       };
 
       this.scene.add(building);
+      this.buildingMeshes.push(building);
       this.landmarkClickables.push(building);
 
       // Rooftop Equipment (HVAC Chiller units / Water Tanks)
@@ -1583,21 +1586,79 @@ class Bengaluru3DDigitalTwin {
   focusHub(hub) {
     this.setCameraMode('orbit');
     if (!this.controls) return;
-    if (hub === 'silkboard') {
-      this.animateCameraTo(40, 85, 155, 40, 0, 75);
+    if (hub === 'wholecity') {
+      this.resetCamera();
+    } else if (hub === 'silkboard') {
+      this.animateCameraTo(40, 150, 195, 40, 10, 75);
     } else if (hub === 'ecity') {
-      this.animateCameraTo(90, 70, 245, 90, 0, 175);
+      this.animateCameraTo(90, 140, 290, 90, 15, 175);
     } else if (hub === 'cbd') {
-      this.animateCameraTo(22, 65, 55, 22, 0, -15);
+      this.animateCameraTo(22, 140, 110, 22, 10, -18);
     } else if (hub === 'whitefield') {
-      this.animateCameraTo(195, 80, 70, 195, 0, -14);
+      this.animateCameraTo(195, 140, 105, 195, 15, -14);
+    } else if (hub === 'peenya') {
+      this.animateCameraTo(-105, 140, 35, -105, 10, -85);
+    } else if (hub === 'hebbal') {
+      this.animateCameraTo(5, 140, 30, 5, 10, -90);
+    } else if (hub === 'bellandur') {
+      this.animateCameraTo(145, 130, 175, 145, 0, 60);
     } else if (hub === 'ulsoor') {
-      this.animateCameraTo(70, 55, 30, 70, 0, -25);
+      this.animateCameraTo(70, 120, 85, 70, 0, -25);
+    } else if (hub === 'majestic') {
+      this.animateCameraTo(-15, 130, 45, -15, 10, -65);
+    } else if (hub === 'jayanagar') {
+      this.animateCameraTo(0, 130, 175, 0, 5, 65);
     }
   }
 
   resetCamera() {
-    this.animateCameraTo(0, 260, 340, 0, 0, 0);
+    this.animateCameraTo(0, 480, 560, 0, 0, 0);
+  }
+
+  cycleBuildingMode() {
+    if (this.buildingMode === 'full') {
+      this.setBuildingMode('ghost');
+    } else if (this.buildingMode === 'ghost') {
+      this.setBuildingMode('off');
+    } else {
+      this.setBuildingMode('full');
+    }
+  }
+
+  setBuildingMode(mode) {
+    this.buildingMode = mode;
+    this.buildingMeshes.forEach(b => {
+      if (mode === 'off') {
+        b.visible = false;
+      } else if (mode === 'ghost') {
+        b.visible = true;
+        b.material.transparent = true;
+        b.material.opacity = 0.22;
+        b.material.wireframe = true;
+      } else {
+        b.visible = true;
+        b.material.transparent = false;
+        b.material.opacity = 1.0;
+        b.material.wireframe = false;
+      }
+    });
+    const label = document.getElementById('label-buildings');
+    if (label) {
+      if (mode === 'off') label.textContent = 'Buildings: OFF';
+      else if (mode === 'ghost') label.textContent = 'Buildings: Ghost';
+      else label.textContent = 'Buildings: 3D';
+    }
+    if (window.app) window.app.showToast(`Building Display: ${mode.toUpperCase()}`, 'info');
+  }
+
+  toggleCommandDock() {
+    const dock = document.getElementById('twin-command-dock');
+    const toggleIcon = document.getElementById('dock-toggle-icon');
+    if (!dock) return;
+    const isCollapsed = dock.classList.toggle('collapsed');
+    if (toggleIcon) {
+      toggleIcon.className = isCollapsed ? 'fa-solid fa-chevron-up' : 'fa-solid fa-chevron-down';
+    }
   }
 
   animateCameraTo(targetCamX, targetCamY, targetCamZ, lookX, lookY, lookZ) {

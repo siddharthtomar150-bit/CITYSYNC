@@ -89,6 +89,16 @@ class CityMapController {
         ]
       }
     ];
+
+    // Escape key listener for fullscreen
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        const wrapper = document.querySelector('.map-wrapper');
+        if (wrapper && wrapper.classList.contains('fullscreen')) {
+          this.toggleFullscreen();
+        }
+      }
+    });
   }
 
   init() {
@@ -153,6 +163,28 @@ class CityMapController {
     }
   }
 
+  toggleFullscreen() {
+    const wrapper = document.querySelector('.map-wrapper');
+    const btn = document.getElementById('btn-fullscreen-toggle');
+    if (!wrapper) return;
+
+    const isFullscreen = wrapper.classList.toggle('fullscreen');
+    if (btn) {
+      btn.innerHTML = isFullscreen ? '<i class="fa-solid fa-compress"></i> Exit' : '<i class="fa-solid fa-expand"></i> Fullscreen';
+    }
+
+    setTimeout(() => {
+      if (this.map) this.map.invalidateSize();
+      if (typeof threeTwin !== 'undefined' && threeTwin.isInitialized) {
+        threeTwin.onWindowResize();
+      }
+    }, 150);
+
+    if (window.app) {
+      window.app.showToast(isFullscreen ? 'Map Maximized to Whole Screen (Press Esc to restore)' : 'Restored Normal Map View', 'info');
+    }
+  }
+
   switchMode(mode) {
     this.currentMode = mode;
     const mapEl = document.getElementById('leaflet-map');
@@ -160,6 +192,7 @@ class CityMapController {
     const btn2d = document.getElementById('btn-mode-2d');
     const btn3d = document.getElementById('btn-mode-3d');
     const btnSplit = document.getElementById('btn-mode-split');
+    const camRibbon = document.getElementById('twin-camera-ribbon');
 
     [btn2d, btn3d, btnSplit].forEach(b => { if (b) b.classList.remove('active'); });
 
@@ -174,6 +207,7 @@ class CityMapController {
         threeEl.style.left = '0';
       }
       if (btn3d) btn3d.classList.add('active');
+      if (camRibbon) camRibbon.style.display = 'flex';
 
       if (typeof threeTwin !== 'undefined') {
         if (!threeTwin.isInitialized) threeTwin.init('three-container');
@@ -201,6 +235,7 @@ class CityMapController {
         threeEl.style.height = '100%';
       }
       if (btnSplit) btnSplit.classList.add('active');
+      if (camRibbon) camRibbon.style.display = 'flex';
 
       if (typeof threeTwin !== 'undefined') {
         if (!threeTwin.isInitialized) threeTwin.init('three-container');
@@ -225,6 +260,8 @@ class CityMapController {
         mapEl.style.height = '100%';
       }
       if (btn2d) btn2d.classList.add('active');
+      if (camRibbon) camRibbon.style.display = 'none';
+
       if (this.map) {
         setTimeout(() => this.map.invalidateSize(), 100);
       }
@@ -235,16 +272,17 @@ class CityMapController {
   jumpToZone(zoneKey) {
     if (!zoneKey) return;
     const zoneTargets = {
+      wholecity: { lat: 12.9716, lng: 77.5946, zoom: 11, hub: 'wholecity', name: 'Whole Greater Bengaluru (Panoramic Overview)' },
       cbd: { lat: 12.9716, lng: 77.5946, zoom: 15, hub: 'cbd', name: 'Vidhana Soudha & CBD' },
       silkboard: { lat: 12.9176, lng: 77.6238, zoom: 15, hub: 'silkboard', name: 'Central Silk Board Interchange' },
       ecity: { lat: 12.8399, lng: 77.6770, zoom: 14, hub: 'ecity', name: 'Electronic City Tech Hub' },
       whitefield: { lat: 12.9698, lng: 77.7499, zoom: 14, hub: 'whitefield', name: 'Whitefield ITPL' },
-      bellandur: { lat: 12.9260, lng: 77.6762, zoom: 14, hub: 'silkboard', name: 'Bellandur Lake & Tech Parks' },
-      peenya: { lat: 13.0285, lng: 77.5186, zoom: 14, hub: 'cbd', name: 'Peenya Industrial Complex' },
-      hebbal: { lat: 13.0358, lng: 77.5970, zoom: 14, hub: 'cbd', name: 'Hebbal Flyover & Airport Gateway' },
+      bellandur: { lat: 12.9260, lng: 77.6762, zoom: 14, hub: 'bellandur', name: 'Bellandur Lake & Tech Parks' },
+      peenya: { lat: 13.0285, lng: 77.5186, zoom: 14, hub: 'peenya', name: 'Peenya Industrial Complex' },
+      hebbal: { lat: 13.0358, lng: 77.5970, zoom: 14, hub: 'hebbal', name: 'Hebbal Flyover & Airport Gateway' },
       ulsoor: { lat: 12.9818, lng: 77.6200, zoom: 15, hub: 'ulsoor', name: 'Ulsoor Lake & Halasuru' },
-      majestic: { lat: 12.9767, lng: 77.5713, zoom: 15, hub: 'cbd', name: 'Majestic KSR Rail & Metro' },
-      jayanagar: { lat: 12.9250, lng: 77.5938, zoom: 14, hub: 'cbd', name: 'Jayanagar & Lalbagh' }
+      majestic: { lat: 12.9767, lng: 77.5713, zoom: 15, hub: 'majestic', name: 'Majestic KSR Rail & Metro' },
+      jayanagar: { lat: 12.9250, lng: 77.5938, zoom: 14, hub: 'jayanagar', name: 'Jayanagar & Lalbagh' }
     };
 
     const target = zoneTargets[zoneKey];
@@ -335,7 +373,7 @@ class CityMapController {
         if (typeof threeTwin !== 'undefined' && threeTwin.isInitialized) {
           const x = (node.longitude - threeTwin.centerLng) * threeTwin.scaleFactor;
           const z = -(node.latitude - threeTwin.centerLat) * threeTwin.scaleFactor;
-          threeTwin.animateCameraTo(x, 60, z + 50, x, 0, z);
+          threeTwin.animateCameraTo(x, 120, z + 90, x, 0, z);
         }
       });
 
