@@ -18,6 +18,8 @@
   
   <!-- Enterprise SaaS Design System -->
   <link rel="stylesheet" href="/static/css/style.css?v=2.3">
+  <!-- Dubai Digital Twin & IOC Command Center Theme (Reference Images) -->
+  <link rel="stylesheet" href="/static/css/dubai_theme.css?v=2.3">
 </head>
 <body>
 
@@ -127,6 +129,22 @@
         </div>
 
         <div class="topbar-right">
+          <!-- City Switcher: Dubai Digital Twin / Bengaluru -->
+          <div class="dubai-city-switcher" style="margin-left:0;margin-right:6px;">
+            <button class="dubai-city-btn" id="btn-top-dubai" onclick="switchCityTwin('dubai')" title="Switch to Dubai Digital Twin (Reference Image 1)">
+              🇦🇪 Dubai Twin
+            </button>
+            <button class="dubai-city-btn active" id="btn-top-bengaluru" onclick="switchCityTwin('bengaluru')" title="Switch to Bengaluru Digital Twin">
+              🇮🇳 Bengaluru
+            </button>
+          </div>
+
+          <!-- IOC Curved Video Wall Mode Trigger (Reference Image 2) -->
+          <button class="crisis-btn" id="btn-ioc-mode-toggle" onclick="toggleIOCCommandWall()" style="background:linear-gradient(135deg, #4338CA, #6366F1);border-color:#818CF8;" title="Integrated Operations Center Panoramic Curved Video Wall">
+            <i class="fa-solid fa-desktop"></i>
+            <span>IOC WALL</span>
+          </button>
+
           <!-- Hackathon Crisis Showcase Trigger -->
           <button class="crisis-btn" id="btn-run-crisis">
             <i class="fa-solid fa-bolt-lightning"></i>
@@ -1474,6 +1492,434 @@
     </div>
   </div>
 
+  <!-- ============================================================== -->
+  <!-- DUBAI DIGITAL TWIN - URBAN MOBILITY & SMART CITY INTELLIGENCE  -->
+  <!-- Reference Image 1 (Dubai Twin) & Reference Image 2 (IOC Wall) -->
+  <!-- ============================================================== -->
+  <div id="dubai-digital-twin-container" class="dubai-twin-viewport" style="display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:99990;">
+    
+    <!-- IOC Panoramic Video Wall Cockpit Bar (Active in IOC Wall Mode) -->
+    <div id="ioc-cockpit-bar" class="ioc-cockpit-bar" style="display:none;">
+      <i class="fa-solid fa-satellite-dish" style="color:#38bdf8;font-size:14px;"></i>
+      <span class="ioc-cockpit-title">SMART CITY INTEGRATED OPERATIONS COMMAND CENTER (IOC)</span>
+      <span style="font-size:10px;font-family:'JetBrains Mono',monospace;color:#94a3b8;background:rgba(255,255,255,0.06);padding:2px 8px;border-radius:12px;">CURVED PANORAMIC 32:9 DISPLAY</span>
+      <button class="btn-secondary" onclick="toggleIOCCommandWall()" style="font-size:10px;padding:3px 10px;border-radius:12px;background:#ef4444;border:none;color:#fff;cursor:pointer;">
+        <i class="fa-solid fa-xmark"></i> Exit Wall Mode
+      </button>
+    </div>
+
+    <!-- 1. TOP HEADER BAR -->
+    <header class="dubai-topbar">
+      <div class="dubai-brand">
+        <div class="dubai-brand-icon">
+          <i class="fa-solid fa-city"></i>
+        </div>
+        <div>
+          <div class="dubai-brand-title">DUBAI DIGITAL TWIN</div>
+          <div class="dubai-brand-sub">URBAN MOBILITY & SMART CITY INTELLIGENCE</div>
+        </div>
+
+        <!-- City Switcher In Dubai Header -->
+        <div class="dubai-city-switcher">
+          <button class="dubai-city-btn active" id="btn-dubai-self" onclick="switchCityTwin('dubai')">🇦🇪 Dubai</button>
+          <button class="dubai-city-btn" id="btn-dubai-to-blr" onclick="switchCityTwin('bengaluru')">🇮🇳 Bengaluru</button>
+        </div>
+
+        <!-- Camera Views Jump -->
+        <div style="display:flex;gap:4px;margin-left:8px;">
+          <button class="filter-btn" style="font-size:9.5px;padding:2px 7px;" onclick="window.dubaiTwin.setCameraPreset('overview')">Panoramic</button>
+          <button class="filter-btn" style="font-size:9.5px;padding:2px 7px;" onclick="window.dubaiTwin.setCameraPreset('burj')">Burj Khalifa</button>
+          <button class="filter-btn" style="font-size:9.5px;padding:2px 7px;" onclick="window.dubaiTwin.setCameraPreset('palm')">Palm Jumeirah</button>
+          <button class="filter-btn" style="font-size:9.5px;padding:2px 7px;" onclick="window.dubaiTwin.setCameraPreset('szr')">SZR Highway</button>
+          <button class="filter-btn" style="font-size:9.5px;padding:2px 7px;color:#38bdf8;" onclick="window.dubaiTwin.toggleAutoRotate()">Auto-Rotate</button>
+        </div>
+      </div>
+
+      <div class="dubai-topbar-center">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#e2e8f0;letter-spacing:0.5px;" id="dubai-clock-time">
+          May 22, 2025 &nbsp;10:47 AM GST
+        </div>
+        <div class="dubai-weather-badge">
+          <span style="font-size:14px;">☀️</span>
+          <span style="font-weight:600;color:#f8fafc;">32°C Clear Sky</span>
+          <span style="color:var(--dubai-dim);">|</span>
+          <span style="color:var(--dubai-muted);">Wind 12 km/h NE</span>
+        </div>
+      </div>
+
+      <div class="dubai-topbar-right">
+        <div class="dubai-search-box">
+          <i class="fa-solid fa-magnifying-glass" style="color:var(--dubai-muted);font-size:11px;"></i>
+          <input type="text" placeholder="Search location..." id="dubai-search-input">
+        </div>
+
+        <button class="dubai-icon-btn" onclick="toggleIOCCommandWall()" title="Toggle IOC Curved Command Wall (Image 2)">
+          <i class="fa-solid fa-desktop" style="color:#818cf8;"></i>
+        </button>
+
+        <button class="dubai-icon-btn" title="City Notifications">
+          <i class="fa-regular fa-bell"></i>
+          <span class="dubai-badge-count">3</span>
+        </button>
+
+        <div style="width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#0284c7,#38bdf8);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:11px;border:1px solid rgba(255,255,255,0.2);cursor:pointer;" title="Municipal Director Profile">
+          DXB
+        </div>
+      </div>
+    </header>
+
+    <!-- 2. LEFT VERTICAL NAVIGATION RAIL (Matching Image 1) -->
+    <nav class="dubai-nav-rail">
+      <a class="dubai-nav-item active" onclick="setDubaiNav(this, 'overview')"><i class="fa-solid fa-house"></i> Overview</a>
+      <a class="dubai-nav-item" onclick="setDubaiNav(this, 'mobility')"><i class="fa-solid fa-car-side"></i> Mobility</a>
+      <a class="dubai-nav-item" onclick="setDubaiNav(this, 'transport')"><i class="fa-solid fa-train-subway"></i> Public Transport</a>
+      <a class="dubai-nav-item" onclick="setDubaiNav(this, 'infra')"><i class="fa-solid fa-bridge"></i> Infrastructure</a>
+      <a class="dubai-nav-item" onclick="setDubaiNav(this, 'env')"><i class="fa-solid fa-leaf"></i> Environment</a>
+      <a class="dubai-nav-item" onclick="setDubaiNav(this, 'buildings')"><i class="fa-solid fa-building"></i> Buildings</a>
+      <a class="dubai-nav-item" onclick="setDubaiNav(this, 'energy')"><i class="fa-solid fa-bolt"></i> Energy</a>
+      <a class="dubai-nav-item" onclick="setDubaiNav(this, 'safety')"><i class="fa-solid fa-shield-halved"></i> Safety & Security</a>
+      <a class="dubai-nav-item" onclick="setDubaiNav(this, 'economy')"><i class="fa-solid fa-chart-pie"></i> Economy</a>
+      <a class="dubai-nav-item" onclick="setDubaiNav(this, 'citizen')"><i class="fa-solid fa-users"></i> Citizen Experience</a>
+      <a class="dubai-nav-item" onclick="setDubaiNav(this, 'ai')"><i class="fa-solid fa-brain"></i> AI & Insights</a>
+    </nav>
+
+    <!-- 3. LEFT FLOATING HUD STACK (Traffic Overview & AI Copilot) -->
+    <div class="dubai-left-stack">
+      <!-- Traffic Overview Live Card -->
+      <div class="dubai-glass-card">
+        <div class="dubai-card-header">
+          <span class="dubai-card-title"><i class="fa-solid fa-car" style="color:var(--dubai-cyan);margin-right:6px;"></i> Traffic Overview (Live)</span>
+        </div>
+        <div style="font-size:10px;color:var(--dubai-muted);margin-bottom:8px;">Overall Congestion Index</div>
+
+        <div class="radial-meter-container">
+          <!-- Circular SVG Radial Gauge: 72% High -->
+          <div style="position:relative;width:82px;height:82px;">
+            <svg class="radial-meter-svg" viewBox="0 0 100 100">
+              <circle class="radial-meter-bg" cx="50" cy="50" r="42" />
+              <!-- Circumference = 2 * PI * 42 = 263.89; 72% fill => dashoffset = 263.89 * (1 - 0.72) = 73.89 -->
+              <circle class="radial-meter-fill" cx="50" cy="50" r="42" stroke="url(#trafficGradient)" stroke-dasharray="263.89" stroke-dashoffset="73.89" />
+              <defs>
+                <linearGradient id="trafficGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#EF4444" />
+                  <stop offset="60%" stop-color="#F59E0B" />
+                  <stop offset="100%" stop-color="#10B981" />
+                </linearGradient>
+              </defs>
+            </svg>
+            <div class="radial-meter-value">
+              <span id="dubai-traffic-percent">72%</span>
+              <span class="radial-meter-label" style="color:#EF4444;">High</span>
+            </div>
+          </div>
+
+          <!-- 5-Tier Velocity Legend (Exact match to Image 1) -->
+          <div style="display:flex;flex-direction:column;gap:3px;font-size:9.5px;">
+            <div style="display:flex;align-items:center;gap:6px;color:#EF4444;">
+              <span style="width:7px;height:7px;border-radius:50%;background:#EF4444;"></span> Very Heavy (&gt; 70%)
+            </div>
+            <div style="display:flex;align-items:center;gap:6px;color:#F97316;">
+              <span style="width:7px;height:7px;border-radius:50%;background:#F97316;"></span> Heavy (20-40 km/h)
+            </div>
+            <div style="display:flex;align-items:center;gap:6px;color:#FBBF24;">
+              <span style="width:7px;height:7px;border-radius:50%;background:#FBBF24;"></span> Moderate (40-60 km/h)
+            </div>
+            <div style="display:flex;align-items:center;gap:6px;color:#34D399;">
+              <span style="width:7px;height:7px;border-radius:50%;background:#34D399;"></span> Light (60-80 km/h)
+            </div>
+            <div style="display:flex;align-items:center;gap:6px;color:#10B981;">
+              <span style="width:7px;height:7px;border-radius:50%;background:#10B981;"></span> Free Flow (&gt; 80 km/h)
+            </div>
+          </div>
+        </div>
+
+        <!-- 24-Hour Traffic Flow Curve -->
+        <div style="margin-top:12px;">
+          <div style="display:flex;justify-content:space-between;font-size:9.5px;color:var(--dubai-muted);margin-bottom:4px;">
+            <span>Traffic Flow</span>
+            <span style="color:#EF4444;font-family:'JetBrains Mono';">Peak: 18:30</span>
+          </div>
+          <svg viewBox="0 0 250 48" style="width:100%;height:48px;background:rgba(15,23,42,0.5);border-radius:4px;border:1px solid rgba(255,255,255,0.05);">
+            <line x1="0" y1="12" x2="250" y2="12" stroke="rgba(255,255,255,0.06)" stroke-dasharray="2" />
+            <line x1="0" y1="28" x2="250" y2="28" stroke="rgba(255,255,255,0.06)" stroke-dasharray="2" />
+            <path d="M 0,38 Q 30,35 60,30 T 110,14 T 150,26 T 190,8 T 230,22 T 250,32" fill="none" stroke="#EF4444" stroke-width="2" />
+            <path d="M 0,38 Q 30,35 60,30 T 110,14 T 150,26 T 190,8 T 230,22 T 250,32 L 250,48 L 0,48 Z" fill="rgba(239, 68, 68, 0.12)" />
+          </svg>
+          <div style="display:flex;justify-content:space-between;font-size:8px;color:var(--dubai-dim);font-family:'JetBrains Mono';margin-top:2px;">
+            <span>00:00</span><span>06:00</span><span>12:00</span><span>18:00</span><span>24:00</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Agentic AI Copilot Card -->
+      <div class="dubai-glass-card ai-copilot-card">
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+          <span class="ai-copilot-badge"><i class="fa-solid fa-brain"></i> AGENTIC AI COPILOT</span>
+          <span style="font-size:9px;color:#10B981;font-weight:700;"><span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:#10B981;margin-right:4px;"></span>Active</span>
+        </div>
+        <p style="font-size:10.5px;color:var(--dubai-muted);line-height:1.35;margin:4px 0 8px 0;">
+          I continuously analyze city data and suggest actions to improve mobility, sustainability and livability.
+        </p>
+
+        <div style="font-size:9px;color:var(--dubai-cyan-bright);font-weight:700;text-transform:uppercase;">Current Focus</div>
+        <div class="ai-focus-box" id="dubai-copilot-focus">
+          Reduce congestion on Sheikh Zayed Road by optimizing signal timing and rerouting traffic.
+        </div>
+
+        <button class="btn-ai-action" onclick="showDubaiAiRecModal()">
+          <i class="fa-solid fa-sparkles"></i> View AI Recommendations
+        </button>
+      </div>
+    </div>
+
+    <!-- 4. CENTER 3D VIEWPORT & 3D FLOATING HUD PINS -->
+    <div id="dubai-three-viewport" style="position:absolute;top:0;left:0;width:100%;height:100%;z-index:900;">
+      <!-- HTML overlay for floating 3D location badges -->
+      <div id="dubai-labels-overlay" style="position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:920;"></div>
+    </div>
+
+    <!-- 5. RIGHT FLOATING HUD STACK (Air Quality & AI Insights) -->
+    <div class="dubai-right-stack">
+      <!-- Air Quality Live Card -->
+      <div class="dubai-glass-card">
+        <div class="dubai-card-header">
+          <span class="dubai-card-title"><i class="fa-solid fa-wind" style="color:var(--dubai-cyan);margin-right:6px;"></i> Air Quality (Live)</span>
+        </div>
+        <div style="font-size:10px;color:var(--dubai-muted);margin-bottom:8px;">AQI (US)</div>
+
+        <div class="radial-meter-container">
+          <!-- Circular SVG Radial Gauge: 42 Good -->
+          <div style="position:relative;width:82px;height:82px;">
+            <svg class="radial-meter-svg" viewBox="0 0 100 100">
+              <circle class="radial-meter-bg" cx="50" cy="50" r="42" />
+              <!-- 42 / 100 => dashoffset = 263.89 * (1 - 0.42) = 153.05 -->
+              <circle class="radial-meter-fill" cx="50" cy="50" r="42" stroke="#10B981" stroke-dasharray="263.89" stroke-dashoffset="153.05" />
+            </svg>
+            <div class="radial-meter-value">
+              <span id="dubai-aqi-val">42</span>
+              <span class="radial-meter-label" style="color:#10B981;">Good</span>
+            </div>
+          </div>
+
+          <!-- Pollutant Grid (Exact match to Image 1) -->
+          <div style="flex:1;">
+            <div class="dubai-pollutant-grid">
+              <div class="pollutant-item"><span class="p-name">PM2.5</span><span class="p-val">18 <small style="color:var(--dubai-dim)">µg/m³</small></span></div>
+              <div class="pollutant-item"><span class="p-name">PM10</span><span class="p-val">28 <small style="color:var(--dubai-dim)">µg/m³</small></span></div>
+              <div class="pollutant-item"><span class="p-name">NO2</span><span class="p-val">12 <small style="color:var(--dubai-dim)">ppb</small></span></div>
+              <div class="pollutant-item"><span class="p-name">O3</span><span class="p-val">26 <small style="color:var(--dubai-dim)">ppb</small></span></div>
+              <div class="pollutant-item"><span class="p-name">CO</span><span class="p-val">0.4 <small style="color:var(--dubai-dim)">ppm</small></span></div>
+              <div class="pollutant-item"><span class="p-name">SO2</span><span class="p-val">5 <small style="color:var(--dubai-dim)">ppb</small></span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4-Slot Hourly Air Quality Forecast -->
+        <div style="font-size:9.5px;color:var(--dubai-muted);margin-top:8px;">Air Quality Forecast</div>
+        <div class="dubai-forecast-row">
+          <div class="forecast-pill"><div class="f-time">12:00</div><div class="f-val" style="color:#10B981;">42</div><div class="f-status" style="color:#10B981;">Good</div></div>
+          <div class="forecast-pill"><div class="f-time">15:00</div><div class="f-val" style="color:#10B981;">46</div><div class="f-status" style="color:#10B981;">Good</div></div>
+          <div class="forecast-pill"><div class="f-time">18:00</div><div class="f-val" style="color:#FBBF24;">51</div><div class="f-status" style="color:#FBBF24;">Moderate</div></div>
+          <div class="forecast-pill"><div class="f-time">21:00</div><div class="f-val" style="color:#10B981;">44</div><div class="f-status" style="color:#10B981;">Good</div></div>
+        </div>
+      </div>
+
+      <!-- Agentic AI Insights Card -->
+      <div class="dubai-glass-card" style="border:1px solid rgba(139,92,246,0.35);background:radial-gradient(circle at top right, rgba(139,92,246,0.12), rgba(10,16,30,0.94));">
+        <div class="dubai-card-header">
+          <span class="dubai-card-title" style="color:#C084FC;"><i class="fa-solid fa-lightbulb" style="color:#A855F7;margin-right:6px;"></i> Agentic AI Insights</span>
+          <i class="fa-solid fa-ellipsis-vertical" style="color:var(--dubai-dim);cursor:pointer;"></i>
+        </div>
+
+        <div style="font-size:9px;color:#A855F7;font-weight:800;letter-spacing:0.6px;text-transform:uppercase;margin-bottom:4px;">
+          <i class="fa-solid fa-arrow-turn-down" style="margin-right:4px;"></i> Recommended Action
+        </div>
+        <p style="font-size:11px;color:#E2E8F0;line-height:1.4;margin-bottom:10px;" id="dubai-insight-text">
+          Increase metro frequency on Red Line by 15% between 08:00 - 10:00 to reduce congestion by ~8%.
+        </p>
+
+        <div style="font-size:9px;color:var(--dubai-muted);text-transform:uppercase;font-weight:700;">Predicted Impact</div>
+        <div class="dubai-impact-row">
+          <div class="impact-pill">
+            <div class="imp-val" style="color:#10B981;">-8%</div>
+            <div class="imp-label">Congestion</div>
+          </div>
+          <div class="impact-pill">
+            <div class="imp-val" style="color:#38BDF8;">+12%</div>
+            <div class="imp-label">Ridership</div>
+          </div>
+          <div class="impact-pill">
+            <div class="imp-val" style="color:#34D399;">-4%</div>
+            <div class="imp-label">Emission</div>
+          </div>
+        </div>
+
+        <button class="btn-ai-action" id="btn-approve-dubai-action" onclick="approveDubaiAction()" style="background:linear-gradient(135deg, #059669, #047857);">
+          <i class="fa-solid fa-check-double"></i> Approve Action
+        </button>
+
+        <div style="text-align:right;margin-top:8px;">
+          <a href="#" style="font-size:9.5px;color:#C084FC;text-decoration:none;" onclick="showDubaiAiRecModal();return false;">See All AI Recommendations &gt;</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- 6. BOTTOM FLOATING HUD DECK (7 CARDS ROW) -->
+    <div class="dubai-bottom-deck">
+      <!-- 1. Data Status -->
+      <div class="dubai-deck-card">
+        <div class="dubai-deck-title">
+          <span>Data Status</span>
+          <span style="color:#10B981;font-size:9px;font-weight:700;"><span style="display:inline-block;width:5px;height:5px;border-radius:50%;background:#10B981;margin-right:3px;"></span>Live</span>
+        </div>
+        <div style="font-size:10px;color:#E2E8F0;line-height:1.3;">
+          Connected to <strong>128</strong> Data Sources
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin:4px 0;">
+          <span style="font-size:9px;color:var(--dubai-dim);">Latency: 120 ms</span>
+          <svg width="45" height="14"><polyline fill="none" stroke="#38BDF8" stroke-width="1.5" points="0,10 10,7 20,12 30,3 45,6" /></svg>
+        </div>
+        <div style="font-size:9.5px;color:var(--dubai-muted);font-family:'JetBrains Mono';">
+          Uptime: <span style="color:#10B981;">99.98%</span>
+        </div>
+      </div>
+
+      <!-- 2. Mobility Mode Share (Donut Graphic) -->
+      <div class="dubai-deck-card">
+        <div class="dubai-deck-title">Mobility Mode Share</div>
+        <div class="mode-share-container">
+          <!-- Donut SVG -->
+          <svg width="60" height="60" viewBox="0 0 42 42" style="transform:rotate(-90deg);flex-shrink:0;">
+            <circle cx="21" cy="21" r="15.915" fill="transparent" stroke="#38BDF8" stroke-width="6" stroke-dasharray="40 60" stroke-dashoffset="0" />
+            <circle cx="21" cy="21" r="15.915" fill="transparent" stroke="#818CF8" stroke-width="6" stroke-dasharray="26 74" stroke-dashoffset="-40" />
+            <circle cx="21" cy="21" r="15.915" fill="transparent" stroke="#F59E0B" stroke-width="6" stroke-dasharray="15 85" stroke-dashoffset="-66" />
+            <circle cx="21" cy="21" r="15.915" fill="transparent" stroke="#EC4899" stroke-width="6" stroke-dasharray="8 92" stroke-dashoffset="-81" />
+            <circle cx="21" cy="21" r="15.915" fill="transparent" stroke="#10B981" stroke-width="6" stroke-dasharray="11 89" stroke-dashoffset="-89" />
+          </svg>
+          <div class="mode-share-legend">
+            <div class="legend-item"><span class="legend-color-dot" style="background:#38BDF8;"></span> Car 40%</div>
+            <div class="legend-item"><span class="legend-color-dot" style="background:#818CF8;"></span> Metro 26%</div>
+            <div class="legend-item"><span class="legend-color-dot" style="background:#F59E0B;"></span> Bus 15%</div>
+            <div class="legend-item"><span class="legend-color-dot" style="background:#EC4899;"></span> Taxi 8%</div>
+            <div class="legend-item"><span class="legend-color-dot" style="background:#10B981;"></span> Walk 7%</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. Public Transport Live -->
+      <div class="dubai-deck-card">
+        <div class="dubai-deck-title">Public Transport (Live)</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;font-size:9.5px;">
+          <div><i class="fa-solid fa-train-subway" style="color:#38BDF8;"></i> Metro: <strong>490K+</strong></div>
+          <div><i class="fa-solid fa-bus" style="color:#F59E0B;"></i> Bus: <strong>210K+</strong></div>
+          <div><i class="fa-solid fa-taxi" style="color:#EC4899;"></i> Taxi: <strong>45K+</strong></div>
+          <div><i class="fa-solid fa-ship" style="color:#06B6D4;"></i> Water: <strong>18K+</strong></div>
+        </div>
+        <div style="font-size:9.5px;color:var(--dubai-muted);margin-top:4px;">
+          On-Time Performance: <strong style="color:#10B981;">98.1%</strong>
+        </div>
+      </div>
+
+      <!-- 4. Accessibility to Metro (Isochrone) -->
+      <div class="dubai-deck-card">
+        <div class="dubai-deck-title">Accessibility (To Metro)</div>
+        <div class="isochrone-box">
+          <div class="isochrone-map-graphic">
+            <span style="font-size:8px;font-weight:900;color:#fff;background:#0284c7;padding:1px 4px;border-radius:3px;">(M)</span>
+          </div>
+          <div class="isochrone-legend">
+            <div><span style="color:#38BDF8;">■</span> 0-400m (High)</div>
+            <div><span style="color:#0284C7;">■</span> 400-800m</div>
+            <div><span style="color:#1E40AF;">■</span> 800-1200m</div>
+            <div><span style="color:#F59E0B;">■</span> 1200-1600m</div>
+            <div><span style="color:#EF4444;">■</span> &gt;1600m (Low)</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 5. Key Statistics -->
+      <div class="dubai-deck-card">
+        <div class="dubai-deck-title">Key Statistics</div>
+        <div style="display:flex;flex-direction:column;gap:2px;font-size:9.5px;">
+          <div><i class="fa-solid fa-road" style="color:var(--dubai-cyan);"></i> Road Length: <strong>21,762 km</strong></div>
+          <div><i class="fa-solid fa-train" style="color:#818CF8;"></i> Metro Length: <strong>75 km</strong></div>
+          <div><i class="fa-solid fa-gauge-high" style="color:#F59E0B;"></i> Avg Travel Speed: <strong>22 km/h</strong></div>
+          <div><i class="fa-solid fa-users" style="color:#34D399;"></i> Population (2024): <strong>3.7M+</strong></div>
+        </div>
+      </div>
+
+      <!-- 6. Sustainability Overview -->
+      <div class="dubai-deck-card">
+        <div class="dubai-deck-title">Sustainability Overview</div>
+        <div style="display:flex;flex-direction:column;gap:3px;font-size:9.5px;">
+          <div><i class="fa-solid fa-leaf" style="color:#10B981;"></i> CO2: <strong>12,800 t</strong> <span style="color:#10B981;">(-4%)</span></div>
+          <div><i class="fa-solid fa-bolt" style="color:#F59E0B;"></i> Energy: <strong>8.2 GWh</strong> <span style="color:#F59E0B;">(+3%)</span></div>
+          <div><i class="fa-solid fa-droplet" style="color:#38BDF8;"></i> Water: <strong>85 ML</strong> <span style="color:#10B981;">(-2%)</span></div>
+        </div>
+      </div>
+
+      <!-- 7. Incidents & Alerts -->
+      <div class="dubai-deck-card">
+        <div class="dubai-deck-title">
+          <span>Incidents & Alerts</span>
+          <i class="fa-solid fa-bell" style="color:#EF4444;"></i>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:2px;font-size:9.5px;">
+          <div style="color:#EF4444;"><i class="fa-solid fa-car-burst"></i> <strong>6</strong> Traffic Incidents</div>
+          <div style="color:#F59E0B;"><i class="fa-solid fa-triangle-exclamation"></i> <strong>2</strong> Infrastructure Alerts</div>
+          <div style="color:#38BDF8;"><i class="fa-solid fa-cloud-rain"></i> <strong>1</strong> Weather Alert</div>
+        </div>
+        <div style="text-align:right;margin-top:2px;">
+          <a href="#" style="font-size:9px;color:var(--dubai-cyan-bright);text-decoration:none;" onclick="showDubaiAllAlerts();return false;">View All Alerts &gt;</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- 7. BOTTOM TICKER BAR (Image 1) -->
+    <div class="dubai-ticker">
+      <div class="dubai-ticker-label">CITY NOTIFICATIONS</div>
+      <div class="dubai-ticker-content" id="dubai-ticker-stream">
+        <span><strong style="color:#EF4444;">10:30 AM</strong> Roadwork on Al Khail Road - Expect Delays</span>
+        <span>•</span>
+        <span><strong style="color:#10B981;">10:15 AM</strong> Metro Maintenance on Green Line - Service Normal</span>
+        <span>•</span>
+        <span><strong style="color:#F59E0B;">09:50 AM</strong> High Winds Expected in Coastal & Palm Jumeirah Areas</span>
+        <span>•</span>
+        <span><strong style="color:#38BDF8;">09:20 AM</strong> Dubai Water Canal Bridge Speed Limit Restored</span>
+        <span>•</span>
+        <span><strong style="color:#10B981;">08:45 AM</strong> Autonomous Taxi Fleet Readiness 99.4% in Downtown</span>
+      </div>
+      <div style="margin-left:auto;white-space:nowrap;padding-left:16px;">
+        <a href="#" style="color:var(--dubai-cyan-bright);text-decoration:none;font-size:10px;font-weight:700;">View All</a>
+      </div>
+    </div>
+
+    <!-- Silhouetted Operator Consoles Overlay for Reference Image 2 (Active in IOC Wall Mode) -->
+    <div id="ioc-operator-silhouette" class="ioc-operator-silhouette" style="display:none;">
+      <div class="operator-station">
+        <span>CONSOLE DXB-01</span>
+        <span style="color:#fff;">TRAFFIC INTELLIGENCE</span>
+        <span style="color:#10b981;">● CONNECTED</span>
+      </div>
+      <div class="operator-station">
+        <span>CONSOLE DXB-02</span>
+        <span style="color:#fff;">METRO & TRANSIT</span>
+        <span style="color:#10b981;">● OPTIMAL</span>
+      </div>
+      <div class="operator-station">
+        <span>CONSOLE DXB-03</span>
+        <span style="color:#fff;">GRID & SCADA</span>
+        <span style="color:#10b981;">● ACTIVE</span>
+      </div>
+      <div class="operator-station">
+        <span>CONSOLE DXB-04</span>
+        <span style="color:#fff;">CRISIS & SAFETY</span>
+        <span style="color:#38bdf8;">● READY</span>
+      </div>
+    </div>
+
+  </div>
+
   <!-- Leaflet JS -->
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <!-- Chart.js -->
@@ -1488,6 +1934,7 @@
   <script src="/static/js/websocket.js?v=2.3"></script>
   <script src="/static/js/charts.js?v=2.3"></script>
   <script src="/static/js/three_twin.js?v=2.3"></script>
+  <script src="/static/js/dubai_twin.js?v=2.3"></script>
   <script src="/static/js/map.js?v=2.3"></script>
   <script src="/static/js/app.js?v=2.3"></script>
 </body>

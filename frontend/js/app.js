@@ -1514,3 +1514,177 @@ class AppController {
 
 const app = new AppController();
 document.addEventListener('DOMContentLoaded', () => app.init());
+
+// ============================================================================
+// DUBAI DIGITAL TWIN & INTEGRATED OPERATIONS CENTER (IOC) CONTROLLER
+// Reference: Image 1 (Dubai Digital Twin) & Image 2 (Curved Command Wall)
+// ============================================================================
+
+window.currentCity = 'bengaluru';
+window.isIOCWallActive = false;
+
+window.switchCityTwin = function(cityName) {
+  const dubaiContainer = document.getElementById('dubai-digital-twin-container');
+  const btnTopDubai = document.getElementById('btn-top-dubai');
+  const btnTopBlr = document.getElementById('btn-top-bengaluru');
+  const btnDubaiSelf = document.getElementById('btn-dubai-self');
+  const btnDubaiBlr = document.getElementById('btn-dubai-to-blr');
+
+  if (cityName === 'dubai') {
+    window.currentCity = 'dubai';
+    if (dubaiContainer) {
+      dubaiContainer.style.display = 'block';
+      if (window.dubaiTwin && !window.dubaiTwin.isInitialized) {
+        window.dubaiTwin.init();
+      } else if (window.dubaiTwin) {
+        window.dubaiTwin.onWindowResize();
+      }
+    }
+    if (btnTopDubai) btnTopDubai.classList.add('active');
+    if (btnTopBlr) btnTopBlr.classList.remove('active');
+    if (btnDubaiSelf) btnDubaiSelf.classList.add('active');
+    if (btnDubaiBlr) btnDubaiBlr.classList.remove('active');
+    if (typeof app !== 'undefined' && app.showToast) {
+      app.showToast('🇦🇪 Switched to Dubai Digital Twin (Urban Mobility & Smart City Intelligence)', 'info');
+    }
+  } else {
+    window.currentCity = 'bengaluru';
+    if (dubaiContainer) {
+      dubaiContainer.style.display = 'none';
+    }
+    // Also exit IOC wall if open
+    if (window.isIOCWallActive) {
+      window.toggleIOCCommandWall(false);
+    }
+    if (btnTopDubai) btnTopDubai.classList.remove('active');
+    if (btnTopBlr) btnTopBlr.classList.add('active');
+    if (btnDubaiSelf) btnDubaiSelf.classList.remove('active');
+    if (btnDubaiBlr) btnDubaiBlr.classList.add('active');
+    if (typeof app !== 'undefined' && app.showToast) {
+      app.showToast('🇮🇳 Switched to Bengaluru Smart City Intelligence Platform', 'info');
+    }
+  }
+};
+
+window.toggleIOCCommandWall = function(forceState) {
+  const dubaiContainer = document.getElementById('dubai-digital-twin-container');
+  const cockpitBar = document.getElementById('ioc-cockpit-bar');
+  const silhouette = document.getElementById('ioc-operator-silhouette');
+
+  if (typeof forceState === 'boolean') {
+    window.isIOCWallActive = forceState;
+  } else {
+    window.isIOCWallActive = !window.isIOCWallActive;
+  }
+
+  // Ensure Dubai container is visible in IOC Wall Mode
+  if (window.isIOCWallActive) {
+    if (dubaiContainer) {
+      dubaiContainer.style.display = 'block';
+      dubaiContainer.classList.add('ioc-video-wall');
+      if (window.dubaiTwin && !window.dubaiTwin.isInitialized) {
+        window.dubaiTwin.init();
+      } else if (window.dubaiTwin) {
+        window.dubaiTwin.onWindowResize();
+      }
+    }
+    if (cockpitBar) cockpitBar.style.display = 'flex';
+    if (silhouette) silhouette.style.display = 'flex';
+    if (typeof app !== 'undefined' && app.showToast) {
+      app.showToast('🖥️ IOC Curved Multi-Screen Panoramic Video Wall Engaged', 'success');
+    }
+  } else {
+    if (dubaiContainer) {
+      dubaiContainer.classList.remove('ioc-video-wall');
+      if (window.currentCity === 'bengaluru') {
+        dubaiContainer.style.display = 'none';
+      }
+    }
+    if (cockpitBar) cockpitBar.style.display = 'none';
+    if (silhouette) silhouette.style.display = 'none';
+    if (typeof app !== 'undefined' && app.showToast) {
+      app.showToast('Standard Viewport Restored', 'info');
+    }
+  }
+};
+
+window.setDubaiNav = function(el, sectionKey) {
+  document.querySelectorAll('.dubai-nav-rail .dubai-nav-item').forEach(item => item.classList.remove('active'));
+  if (el) el.classList.add('active');
+
+  const focusBox = document.getElementById('dubai-copilot-focus');
+  if (focusBox) {
+    const focusMap = {
+      overview: 'Reduce congestion on Sheikh Zayed Road by optimizing signal timing and rerouting traffic.',
+      mobility: 'Autonomous vehicle corridor active on Al Khail Road. Speed regulation steady at 80 km/h.',
+      transport: 'Dubai Metro Red & Green line capacity synchronized with Dubai Tram & Water Taxi feeder loops.',
+      infra: 'Structural telemetry healthy across Dubai Frame, Infinity Bridge, and Canal Bridges.',
+      env: 'Urban heat island mitigation active: Sea breeze channeled via coastline ventilation corridors.',
+      buildings: 'BIM energy optimization across Downtown Burj District and Business Bay high-rises.',
+      energy: 'DEWA Solar Park integration: 240 MW dispatched to central district cooling plants.',
+      safety: 'Civil Defense Drone patrols active along Jumeirah Beach and Dubai Marina waterways.',
+      economy: 'Commercial logistics flow running at 99.4% schedule compliance across JAFZA corridors.',
+      citizen: 'Smart Dubai 24/7 Citizen response app: 99.1% positive satisfaction rating.',
+      ai: 'Multimodal LLM predictive reasoning generating real-time traffic signal phase optimizations.'
+    };
+    focusBox.textContent = focusMap[sectionKey] || focusMap.overview;
+  }
+};
+
+window.approveDubaiAction = function() {
+  const btn = document.getElementById('btn-approve-dubai-action');
+  const trafficPercent = document.getElementById('dubai-traffic-percent');
+  const insightText = document.getElementById('dubai-insight-text');
+
+  if (btn) {
+    btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Executing Dispatch...';
+    btn.disabled = true;
+
+    setTimeout(() => {
+      btn.innerHTML = '<i class="fa-solid fa-check"></i> Action Approved & Dispatched';
+      btn.style.background = 'linear-gradient(135deg, #0284c7, #0369a1)';
+
+      if (trafficPercent) {
+        trafficPercent.textContent = '64%';
+        const fillCircle = document.querySelector('.radial-meter-fill');
+        if (fillCircle) {
+          // 64% fill: 263.89 * (1 - 0.64) = 94.99
+          fillCircle.style.strokeDashoffset = '95';
+        }
+      }
+
+      if (insightText) {
+        insightText.innerHTML = '<strong style="color:#10B981;">Dispatched:</strong> Red Line headway decreased to 2.8 min. Congestion dropping on Sheikh Zayed Road corridor.';
+      }
+
+      if (typeof app !== 'undefined' && app.showToast) {
+        app.showToast('✅ Transit Dispatch Approved: Dubai Metro frequency increased by 15%', 'success');
+      }
+    }, 900);
+  }
+};
+
+window.showDubaiAiRecModal = function() {
+  if (typeof app !== 'undefined' && app.showToast) {
+    app.showToast('🤖 Agentic AI: 4 Strategic Optimizations Active (Signal Retiming, Red Line headway, Feeder bus reroute, Parking guidance)', 'info');
+  }
+};
+
+window.showDubaiAllAlerts = function() {
+  if (typeof app !== 'undefined' && app.showToast) {
+    app.showToast('🚨 Dubai Operations Center: 6 Traffic Incidents under active management by Dubai Police & RTA.', 'warning');
+  }
+};
+
+// Dubai Real-Time Clock
+function updateDubaiClock() {
+  const clockEl = document.getElementById('dubai-clock-time');
+  if (!clockEl) return;
+  const now = new Date();
+  const options = { month: 'short', day: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true };
+  const formatted = now.toLocaleDateString('en-US', options);
+  clockEl.innerHTML = `${formatted} GST`;
+}
+setInterval(updateDubaiClock, 1000);
+updateDubaiClock();
+
