@@ -35,7 +35,7 @@ In almost every modern city today, municipal departments operate in completely i
 CITYSYNC features a top-level **City Switcher** allowing instant 1-click toggling between two world-class smart city deployments:
 
 ```
-[ 🇦🇪 Dubai Digital Twin ]   ⟷   [ 🇮🇳 Bengaluru Digital Twin ]   |   [ 🖥️ IOC Command Wall ]
+[ 🇦🇪 Dubai Digital Twin ]   ⟷   [ 🇮🇳 Bengaluru Digital Twin ]
 ```
 
 ### 🇦🇪 1. Dubai Digital Twin (*Urban Mobility & Smart City Intelligence*)
@@ -68,22 +68,14 @@ A high-precision operational digital twin focused on tactical municipal coordina
 
 ---
 
-### 🖥️ 3. Integrated Operations Center (IOC) Command Wall Mode
-Click the purple **`[ 🖥️ IOC WALL ]`** button in the header to enter a panoramic command center experience:
-* **32:9 Curved Multi-Screen Display**: Perspective 3D rendering simulating a massive curved command center video wall (`perspective: 1200px`, `transform: rotateX(2deg)`).
-* **Ambient Cyber-Blue Glow**: Realistic command room lighting and curved display bezels.
-* **Futuristic Operator Stations**: Silhouetted console stations along the bottom edge (`CONSOLE DXB-01` through `CONSOLE DXB-04`) showing real-time operator connectivity status.
-
----
-
-## 🎮 3. Four Awesome Things Anyone Can Try Right Now!
+## 🎮 3. Interactive Demos Anyone Can Try Right Now!
 
 | # | Action | How to Do It | What Happens |
 | :-: | :--- | :--- | :--- |
 | **1** | **Switch Between Cities** | Click `[ 🇦🇪 Dubai Twin ]` or `[ 🇮🇳 Bengaluru ]` in the top bar | Seamlessly switches between the Dubai 3D skyline and the Bengaluru municipal GIS platform. |
 | **2** | **Approve an AI Action** | In Dubai mode, click the green `[ Approve Action ]` button | Watch the AI execute an autonomous dispatch: Metro frequency increases by 15%, and highway traffic congestion drops from 72% down to 64%! |
 | **3** | **Trigger a City Crisis** | In Bengaluru mode, click `[ RUN CITY CRISIS SIMULATION ]` | Watch a 10-step multi-sector disaster unfold across power, water, and traffic, and see the Cross-System Engine resolve it. |
-| **4** | **Engage the IOC Command Wall** | Click `[ 🖥️ IOC WALL ]` | Wraps the screen into a NASA/Dubai Police curved 32:9 panoramic video wall with operator consoles. |
+| **4** | **3D Camera Modes** | In 3D twin, switch between Orbit, Drone, Metro Driver, and Tour | Fly around high-rises and follow transit corridors in real-time 3D! |
 
 ---
 
@@ -187,7 +179,6 @@ test_simulation_engine_start_stop                 PASSED [100%]
 ## 📖 8. Plain-English Glossary of Terms
 
 * **Digital Twin**: A real-time virtual 3D simulation of a physical city that mirrors real roads, buildings, and infrastructure.
-* **IOC (Integrated Operations Center)**: A centralized municipal control room with multi-screen panoramic displays where operators manage city services.
 * **AQI (Air Quality Index)**: A universal score measuring air cleanliness. `0–50` is Good, `51–100` is Moderate, `100+` indicates unhealthy pollution.
 * **Cross-System Cascade**: When a small failure in one department (e.g. power grid) triggers domino-effect failures in other departments (e.g. water pumps and traffic lights).
 * **SCADA**: Supervisory Control and Data Acquisition — sensors and instruments that monitor physical equipment like transformers and water valves.

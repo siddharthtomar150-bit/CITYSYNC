@@ -1516,12 +1516,11 @@ const app = new AppController();
 document.addEventListener('DOMContentLoaded', () => app.init());
 
 // ============================================================================
-// DUBAI DIGITAL TWIN & INTEGRATED OPERATIONS CENTER (IOC) CONTROLLER
-// Reference: Image 1 (Dubai Digital Twin) & Image 2 (Curved Command Wall)
+// DUBAI DIGITAL TWIN EXECUTIVE CONTROLLER
+// Reference: Image 1 (Dubai Digital Twin - Urban Mobility & Smart City Intelligence)
 // ============================================================================
 
 window.currentCity = 'bengaluru';
-window.isIOCWallActive = false;
 
 window.switchCityTwin = function(cityName) {
   const dubaiContainer = document.getElementById('dubai-digital-twin-container');
@@ -1552,58 +1551,12 @@ window.switchCityTwin = function(cityName) {
     if (dubaiContainer) {
       dubaiContainer.style.display = 'none';
     }
-    // Also exit IOC wall if open
-    if (window.isIOCWallActive) {
-      window.toggleIOCCommandWall(false);
-    }
     if (btnTopDubai) btnTopDubai.classList.remove('active');
     if (btnTopBlr) btnTopBlr.classList.add('active');
     if (btnDubaiSelf) btnDubaiSelf.classList.remove('active');
     if (btnDubaiBlr) btnDubaiBlr.classList.add('active');
     if (typeof app !== 'undefined' && app.showToast) {
       app.showToast('🇮🇳 Switched to Bengaluru Smart City Intelligence Platform', 'info');
-    }
-  }
-};
-
-window.toggleIOCCommandWall = function(forceState) {
-  const dubaiContainer = document.getElementById('dubai-digital-twin-container');
-  const cockpitBar = document.getElementById('ioc-cockpit-bar');
-  const silhouette = document.getElementById('ioc-operator-silhouette');
-
-  if (typeof forceState === 'boolean') {
-    window.isIOCWallActive = forceState;
-  } else {
-    window.isIOCWallActive = !window.isIOCWallActive;
-  }
-
-  // Ensure Dubai container is visible in IOC Wall Mode
-  if (window.isIOCWallActive) {
-    if (dubaiContainer) {
-      dubaiContainer.style.display = 'block';
-      dubaiContainer.classList.add('ioc-video-wall');
-      if (window.dubaiTwin && !window.dubaiTwin.isInitialized) {
-        window.dubaiTwin.init();
-      } else if (window.dubaiTwin) {
-        window.dubaiTwin.onWindowResize();
-      }
-    }
-    if (cockpitBar) cockpitBar.style.display = 'flex';
-    if (silhouette) silhouette.style.display = 'flex';
-    if (typeof app !== 'undefined' && app.showToast) {
-      app.showToast('🖥️ IOC Curved Multi-Screen Panoramic Video Wall Engaged', 'success');
-    }
-  } else {
-    if (dubaiContainer) {
-      dubaiContainer.classList.remove('ioc-video-wall');
-      if (window.currentCity === 'bengaluru') {
-        dubaiContainer.style.display = 'none';
-      }
-    }
-    if (cockpitBar) cockpitBar.style.display = 'none';
-    if (silhouette) silhouette.style.display = 'none';
-    if (typeof app !== 'undefined' && app.showToast) {
-      app.showToast('Standard Viewport Restored', 'info');
     }
   }
 };

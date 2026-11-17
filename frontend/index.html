@@ -139,12 +139,6 @@
             </button>
           </div>
 
-          <!-- IOC Curved Video Wall Mode Trigger (Reference Image 2) -->
-          <button class="crisis-btn" id="btn-ioc-mode-toggle" onclick="toggleIOCCommandWall()" style="background:linear-gradient(135deg, #4338CA, #6366F1);border-color:#818CF8;" title="Integrated Operations Center Panoramic Curved Video Wall">
-            <i class="fa-solid fa-desktop"></i>
-            <span>IOC WALL</span>
-          </button>
-
           <!-- Interactive Guide for Everyone -->
           <button class="filter-btn" id="btn-open-how-it-works" onclick="openHowItWorksModal()" style="background:rgba(6,182,212,0.15);border:1px solid #06B6D4;color:#38BDF8;font-weight:700;padding:5px 10px;border-radius:6px;display:flex;align-items:center;gap:5px;cursor:pointer;" title="Explain CITYSYNC in simple terms">
             <i class="fa-solid fa-graduation-cap"></i>
@@ -1577,7 +1571,7 @@
             <div style="display:flex;gap:8px;">
               <span style="color:#38BDF8;font-weight:800;font-size:13px;">1.</span>
               <div>
-                <strong style="color:#fff;">Curved Panoramic IOC Wall:</strong> Click the purple <code>[ 🖥️ IOC WALL ]</code> button to experience a 32:9 curved command room with futuristic operator consoles.
+                <strong style="color:#fff;">Switch Between 3D Cities:</strong> Toggle between the 🇦🇪 Dubai 3D Skyline and the 🇮🇳 Bengaluru Tactical GIS platform in 1 click!
               </div>
             </div>
             <div style="display:flex;gap:8px;">
@@ -1616,8 +1610,8 @@
               <div style="color:#94A3B8;margin-top:2px;">How packed the roads are. Above 70% means heavy traffic jams where vehicle speeds drop below 20 km/h.</div>
             </div>
             <div style="background:rgba(15,23,42,0.6);padding:8px;border-radius:6px;border:1px solid rgba(255,255,255,0.05);">
-              <strong style="color:#F59E0B;">IOC Command Center</strong>
-              <div style="color:#94A3B8;margin-top:2px;">Integrated Operations Center: A high-tech NASA-style central room with giant curved video walls where leaders control city operations.</div>
+              <strong style="color:#F59E0B;">Digital Twin Platform</strong>
+              <div style="color:#94A3B8;margin-top:2px;">A real-time 3D computer model of the city that mirrors roads, buildings, power, and water systems with live sensor feeds.</div>
             </div>
           </div>
         </div>
@@ -1635,20 +1629,10 @@
 
   <!-- ============================================================== -->
   <!-- DUBAI DIGITAL TWIN - URBAN MOBILITY & SMART CITY INTELLIGENCE  -->
-  <!-- Reference Image 1 (Dubai Twin) & Reference Image 2 (IOC Wall) -->
+  <!-- Reference Image 1 (Dubai Digital Twin Flagship)                -->
   <!-- ============================================================== -->
   <div id="dubai-digital-twin-container" class="dubai-twin-viewport" style="display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:99990;">
     
-    <!-- IOC Panoramic Video Wall Cockpit Bar (Active in IOC Wall Mode) -->
-    <div id="ioc-cockpit-bar" class="ioc-cockpit-bar" style="display:none;">
-      <i class="fa-solid fa-satellite-dish" style="color:#38bdf8;font-size:14px;"></i>
-      <span class="ioc-cockpit-title">SMART CITY INTEGRATED OPERATIONS COMMAND CENTER (IOC)</span>
-      <span style="font-size:10px;font-family:'JetBrains Mono',monospace;color:#94a3b8;background:rgba(255,255,255,0.06);padding:2px 8px;border-radius:12px;">CURVED PANORAMIC 32:9 DISPLAY</span>
-      <button class="btn-secondary" onclick="toggleIOCCommandWall()" style="font-size:10px;padding:3px 10px;border-radius:12px;background:#ef4444;border:none;color:#fff;cursor:pointer;">
-        <i class="fa-solid fa-xmark"></i> Exit Wall Mode
-      </button>
-    </div>
-
     <!-- 1. TOP HEADER BAR -->
     <header class="dubai-topbar">
       <div class="dubai-brand">
@@ -1699,10 +1683,6 @@
           <i class="fa-solid fa-magnifying-glass" style="color:var(--dubai-muted);font-size:11px;"></i>
           <input type="text" placeholder="Search location..." id="dubai-search-input">
         </div>
-
-        <button class="dubai-icon-btn" onclick="toggleIOCCommandWall()" title="Toggle IOC Curved Command Wall (Image 2)">
-          <i class="fa-solid fa-desktop" style="color:#818cf8;"></i>
-        </button>
 
         <button class="dubai-icon-btn" title="City Notifications">
           <i class="fa-regular fa-bell"></i>
@@ -2038,30 +2018,6 @@
       </div>
       <div style="margin-left:auto;white-space:nowrap;padding-left:16px;">
         <a href="#" style="color:var(--dubai-cyan-bright);text-decoration:none;font-size:10px;font-weight:700;">View All</a>
-      </div>
-    </div>
-
-    <!-- Silhouetted Operator Consoles Overlay for Reference Image 2 (Active in IOC Wall Mode) -->
-    <div id="ioc-operator-silhouette" class="ioc-operator-silhouette" style="display:none;">
-      <div class="operator-station">
-        <span>CONSOLE DXB-01</span>
-        <span style="color:#fff;">TRAFFIC INTELLIGENCE</span>
-        <span style="color:#10b981;">● CONNECTED</span>
-      </div>
-      <div class="operator-station">
-        <span>CONSOLE DXB-02</span>
-        <span style="color:#fff;">METRO & TRANSIT</span>
-        <span style="color:#10b981;">● OPTIMAL</span>
-      </div>
-      <div class="operator-station">
-        <span>CONSOLE DXB-03</span>
-        <span style="color:#fff;">GRID & SCADA</span>
-        <span style="color:#10b981;">● ACTIVE</span>
-      </div>
-      <div class="operator-station">
-        <span>CONSOLE DXB-04</span>
-        <span style="color:#fff;">CRISIS & SAFETY</span>
-        <span style="color:#38bdf8;">● READY</span>
       </div>
     </div>
 

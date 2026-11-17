@@ -493,30 +493,6 @@
   white-space: nowrap;
 }
 
-/* --- IOC VIDEO WALL MODE (Matching Image 2) --- */
-.ioc-video-wall {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  z-index: 99999;
-  background: #020408;
-  perspective: 1200px;
-  overflow: hidden;
-}
-
-.ioc-screen-curve {
-  width: 100%;
-  height: 100%;
-  display: grid;
-  grid-template-columns: 280px 1fr 340px;
-  transform: rotateX(2deg) scale(0.98);
-  border: 4px solid #0EA5E9;
-  border-radius: 20px;
-  box-shadow: 0 0 80px rgba(14, 165, 233, 0.35) inset, 0 0 120px rgba(0, 0, 0, 0.9);
-}
-
 /* Pollutant Grid (Image 1 Right Card) */
 .dubai-pollutant-grid {
   display: grid;
@@ -664,60 +640,5 @@
   gap: 2px;
   font-size: 8.5px;
   color: var(--dubai-muted);
-}
-
-/* Futuristic IOC Operator Consoles Overlay (Image 2) */
-.ioc-cockpit-bar {
-  position: absolute;
-  top: 14px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 10000;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  background: rgba(10, 16, 30, 0.95);
-  border: 1px solid #38bdf8;
-  box-shadow: 0 0 24px rgba(56, 189, 248, 0.4);
-  padding: 6px 18px;
-  border-radius: 30px;
-}
-
-.ioc-cockpit-title {
-  font-size: 12px;
-  font-weight: 800;
-  color: #fff;
-  letter-spacing: 1px;
-}
-
-.ioc-operator-silhouette {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 120px;
-  pointer-events: none;
-  background: linear-gradient(to top, rgba(2, 6, 23, 0.95) 0%, rgba(2, 6, 23, 0.7) 50%, transparent 100%);
-  display: flex;
-  justify-content: space-around;
-  align-items: flex-end;
-  padding: 0 80px;
-  z-index: 999;
-}
-
-.operator-station {
-  width: 140px;
-  height: 55px;
-  background: rgba(15, 23, 42, 0.9);
-  border: 1px solid rgba(56, 189, 248, 0.3);
-  border-radius: 8px 8px 0 0;
-  box-shadow: 0 0 20px rgba(56, 189, 248, 0.2);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: 8.5px;
-  color: #38bdf8;
-  font-family: 'JetBrains Mono', monospace;
 }
 
