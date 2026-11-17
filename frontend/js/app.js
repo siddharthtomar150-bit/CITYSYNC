@@ -1688,3 +1688,15 @@ function updateDubaiClock() {
 setInterval(updateDubaiClock, 1000);
 updateDubaiClock();
 
+// How It Works / Project Guide Modal Handlers
+window.openHowItWorksModal = function() {
+  const modal = document.getElementById('modal-how-it-works');
+  if (modal) modal.style.display = 'flex';
+};
+
+window.closeHowItWorksModal = function() {
+  const modal = document.getElementById('modal-how-it-works');
+  if (modal) modal.style.display = 'none';
+};
+
+

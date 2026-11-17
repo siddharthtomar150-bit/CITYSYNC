@@ -145,6 +145,12 @@
             <span>IOC WALL</span>
           </button>
 
+          <!-- Interactive Guide for Everyone -->
+          <button class="filter-btn" id="btn-open-how-it-works" onclick="openHowItWorksModal()" style="background:rgba(6,182,212,0.15);border:1px solid #06B6D4;color:#38BDF8;font-weight:700;padding:5px 10px;border-radius:6px;display:flex;align-items:center;gap:5px;cursor:pointer;" title="Explain CITYSYNC in simple terms">
+            <i class="fa-solid fa-graduation-cap"></i>
+            <span>How It Works</span>
+          </button>
+
           <!-- Hackathon Crisis Showcase Trigger -->
           <button class="crisis-btn" id="btn-run-crisis">
             <i class="fa-solid fa-bolt-lightning"></i>
@@ -1492,6 +1498,141 @@
     </div>
   </div>
 
+  <!-- MODAL 4: INTERACTIVE "HOW IT WORKS" / PROJECT GUIDE FOR EVERYONE -->
+  <div class="modal-overlay" id="modal-how-it-works" style="display:none;z-index:999999;">
+    <div class="modal-card" style="width:780px;max-width:94vw;max-height:88vh;overflow-y:auto;background:#0A101E;border:1px solid #38BDF8;box-shadow:0 0 40px rgba(56,189,248,0.25);">
+      <div class="modal-header" style="border-bottom:1px solid rgba(255,255,255,0.1);padding-bottom:12px;">
+        <div style="display:flex;align-items:center;gap:10px;">
+          <div style="width:36px;height:36px;background:linear-gradient(135deg,#0284c7,#6366f1);border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:18px;">
+            <i class="fa-solid fa-graduation-cap"></i>
+          </div>
+          <div>
+            <h3 style="color:#fff;font-size:16px;margin:0;font-weight:800;">Welcome to CITYSYNC — Made Simple for Everyone</h3>
+            <div style="font-size:11px;color:#38BDF8;font-family:var(--font-mono);">Smart City Intelligence, 3D Digital Twins & Predictive Decision Platform</div>
+          </div>
+        </div>
+        <button class="modal-close" onclick="closeHowItWorksModal()">&times;</button>
+      </div>
+
+      <div style="padding:16px 0;display:flex;flex-direction:column;gap:16px;">
+        
+        <!-- SECTION 1: WHAT IS CITYSYNC (EXPLAINED LIKE I'M 5) -->
+        <div style="background:rgba(15,23,42,0.8);border-left:4px solid #06B6D4;padding:14px;border-radius:6px;">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
+            <i class="fa-solid fa-lightbulb" style="color:#F59E0B;font-size:16px;"></i>
+            <h4 style="color:#fff;margin:0;font-size:14px;">1. What is CITYSYNC in Simple Words?</h4>
+          </div>
+          <p style="font-size:12px;color:#CBD5E1;line-height:1.6;margin:0;">
+            Think of <strong>CITYSYNC</strong> as the central nervous system or brain for an entire city. 
+            In most cities today, <strong>Traffic Police</strong>, the <strong>Electricity Board</strong>, and the <strong>Water Department</strong> operate in separate silos without talking to each other. 
+            When an electrical substation trips, water pumps shut down and traffic lights go dead, causing complete gridlock. 
+            <strong>CITYSYNC connects all these systems into one real-time 3D screen</strong>, predicting problems before they spread and telling city managers exactly what to do.
+          </p>
+        </div>
+
+        <!-- SECTION 2: THE 2 DIGITAL TWINS -->
+        <div>
+          <h4 style="color:#fff;font-size:13px;margin:0 0 10px 0;display:flex;align-items:center;gap:8px;">
+            <i class="fa-solid fa-earth-americas" style="color:#38BDF8;"></i> 2. Choose Your Digital Twin Experience
+          </h4>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+            
+            <!-- Dubai Twin Card -->
+            <div style="background:rgba(15,23,42,0.7);border:1px solid rgba(56,189,248,0.3);padding:12px;border-radius:8px;">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+                <span style="font-weight:800;color:#F8FAFC;font-size:13px;">🇦🇪 Dubai Digital Twin</span>
+                <span style="font-size:9.5px;color:#06B6D4;background:rgba(6,182,212,0.15);padding:2px 6px;border-radius:4px;font-weight:700;">Executive Flagship</span>
+              </div>
+              <p style="font-size:11px;color:#94A3B8;line-height:1.5;margin-bottom:8px;">
+                A hyper-realistic 3D model of Dubai featuring Burj Khalifa, Palm Jumeirah, Burj Al Arab, Dubai Frame, glowing multi-lane traffic congestion heat ribbons along Sheikh Zayed Road, and an animated autonomous driverless Metro Red Line train.
+              </p>
+              <button onclick="closeHowItWorksModal();switchCityTwin('dubai');" class="btn-primary" style="font-size:10.5px;padding:5px 10px;width:100%;text-align:center;">
+                Open Dubai Twin View &rarr;
+              </button>
+            </div>
+
+            <!-- Bengaluru Twin Card -->
+            <div style="background:rgba(15,23,42,0.7);border:1px solid rgba(16,185,129,0.3);padding:12px;border-radius:8px;">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+                <span style="font-weight:800;color:#F8FAFC;font-size:13px;">🇮🇳 Bengaluru Digital Twin</span>
+                <span style="font-size:9.5px;color:#10B981;background:rgba(16,185,129,0.15);padding:2px 6px;border-radius:4px;font-weight:700;">Tactical Operational</span>
+              </div>
+              <p style="font-size:11px;color:#94A3B8;line-height:1.5;margin-bottom:8px;">
+                A full tactical smart city platform monitoring 18 key infrastructure assets across Central Silk Board, Electronic City, Whitefield, Vidhana Soudha, Peenya, with 2D GIS map, 3D textured twin, and cross-system cascading impact chains.
+              </p>
+              <button onclick="closeHowItWorksModal();switchCityTwin('bengaluru');" class="btn-secondary" style="font-size:10.5px;padding:5px 10px;width:100%;text-align:center;">
+                Open Bengaluru View &rarr;
+              </button>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- SECTION 3: KEY INTERACTIVE DEMOS (TRY THESE!) -->
+        <div style="background:rgba(30,41,59,0.5);border:1px solid rgba(255,255,255,0.08);padding:14px;border-radius:8px;">
+          <h4 style="color:#fff;font-size:13px;margin:0 0 10px 0;display:flex;align-items:center;gap:8px;">
+            <i class="fa-solid fa-gamepad" style="color:#A855F7;"></i> 3. Four Awesome Things You Can Try Right Now!
+          </h4>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;font-size:11.5px;">
+            <div style="display:flex;gap:8px;">
+              <span style="color:#38BDF8;font-weight:800;font-size:13px;">1.</span>
+              <div>
+                <strong style="color:#fff;">Curved Panoramic IOC Wall:</strong> Click the purple <code>[ 🖥️ IOC WALL ]</code> button to experience a 32:9 curved command room with futuristic operator consoles.
+              </div>
+            </div>
+            <div style="display:flex;gap:8px;">
+              <span style="color:#38BDF8;font-weight:800;font-size:13px;">2.</span>
+              <div>
+                <strong style="color:#fff;">Approve AI Recommendation:</strong> In the Dubai twin, click <code>[ Approve Action ]</code> to watch the AI dispatch extra metro trains and reduce congestion from 72% to 64%!
+              </div>
+            </div>
+            <div style="display:flex;gap:8px;">
+              <span style="color:#38BDF8;font-weight:800;font-size:13px;">3.</span>
+              <div>
+                <strong style="color:#fff;">Run Crisis Simulation:</strong> In Bengaluru, click <code>[ RUN CITY CRISIS SIMULATION ]</code> to see a 10-step multi-sector disaster and how the system resolves it.
+              </div>
+            </div>
+            <div style="display:flex;gap:8px;">
+              <span style="color:#38BDF8;font-weight:800;font-size:13px;">4.</span>
+              <div>
+                <strong style="color:#fff;">Change 3D Camera Modes:</strong> Switch between <strong>Orbit</strong>, <strong>Drone View</strong>, <strong>Metro Cab</strong>, and <strong>City Tour</strong> to fly around skyscrapers in 3D!
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SECTION 4: WHAT DO THE METRICS MEAN? (PLAIN ENGLISH DICTIONARY) -->
+        <div>
+          <h4 style="color:#fff;font-size:13px;margin:0 0 8px 0;display:flex;align-items:center;gap:8px;">
+            <i class="fa-solid fa-book-bookmark" style="color:#10B981;"></i> 4. Plain-English Metric Guide
+          </h4>
+          <div style="display:grid;grid-template-columns:repeat(3, 1fr);gap:8px;font-size:10.5px;">
+            <div style="background:rgba(15,23,42,0.6);padding:8px;border-radius:6px;border:1px solid rgba(255,255,255,0.05);">
+              <strong style="color:#38BDF8;">AQI (Air Quality Index)</strong>
+              <div style="color:#94A3B8;margin-top:2px;">Score measuring air pollution. 0-50 is "Good" (healthy to breathe), 51-100 is "Moderate", 100+ is polluted.</div>
+            </div>
+            <div style="background:rgba(15,23,42,0.6);padding:8px;border-radius:6px;border:1px solid rgba(255,255,255,0.05);">
+              <strong style="color:#EF4444;">Congestion Index (%)</strong>
+              <div style="color:#94A3B8;margin-top:2px;">How packed the roads are. Above 70% means heavy traffic jams where vehicle speeds drop below 20 km/h.</div>
+            </div>
+            <div style="background:rgba(15,23,42,0.6);padding:8px;border-radius:6px;border:1px solid rgba(255,255,255,0.05);">
+              <strong style="color:#F59E0B;">IOC Command Center</strong>
+              <div style="color:#94A3B8;margin-top:2px;">Integrated Operations Center: A high-tech NASA-style central room with giant curved video walls where leaders control city operations.</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div style="border-top:1px solid rgba(255,255,255,0.1);padding-top:12px;display:flex;justify-content:space-between;align-items:center;">
+        <span style="font-size:11px;color:#94A3B8;">Built with FastAPI, Three.js 3D WebGL, Leaflet GIS, and Machine Learning.</span>
+        <button class="btn-primary" onclick="closeHowItWorksModal()" style="font-size:11.5px;padding:6px 16px;">
+          Got It! Let's Explore &rarr;
+        </button>
+      </div>
+    </div>
+  </div>
+
   <!-- ============================================================== -->
   <!-- DUBAI DIGITAL TWIN - URBAN MOBILITY & SMART CITY INTELLIGENCE  -->
   <!-- Reference Image 1 (Dubai Twin) & Reference Image 2 (IOC Wall) -->
@@ -1548,6 +1689,12 @@
       </div>
 
       <div class="dubai-topbar-right">
+        <!-- How It Works Guide Button in Dubai View -->
+        <button class="filter-btn" onclick="openHowItWorksModal()" style="background:rgba(6,182,212,0.18);border:1px solid #38BDF8;color:#38BDF8;font-weight:700;padding:4px 9px;border-radius:6px;font-size:10.5px;cursor:pointer;display:flex;align-items:center;gap:5px;" title="Project Guide & How It Works">
+          <i class="fa-solid fa-graduation-cap"></i>
+          <span>How It Works</span>
+        </button>
+
         <div class="dubai-search-box">
           <i class="fa-solid fa-magnifying-glass" style="color:var(--dubai-muted);font-size:11px;"></i>
           <input type="text" placeholder="Search location..." id="dubai-search-input">
