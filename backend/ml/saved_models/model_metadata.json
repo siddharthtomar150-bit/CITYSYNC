@@ -1,0 +1,359 @@
+{
+  "pipeline_version": "2.0.0",
+  "last_trained_at": "2026-11-17T06:07:07.009606+00:00",
+  "training_environment": "Python 3.14 + Joblib Engine",
+  "models": {
+    "traffic": {
+      "model_name": "Traffic Congestion Random Forest Regressor",
+      "model_type": "RandomForestRegressor",
+      "target_variable": "congestion_level (%)",
+      "dataset_file": "traffic_dataset.csv",
+      "total_samples": 2520,
+      "train_samples": 2016,
+      "test_samples": 504,
+      "features": [
+        "hour_of_day",
+        "day_of_week",
+        "is_weekend",
+        "is_rush_hour",
+        "prev_hour_congestion",
+        "rolling_3h_congestion",
+        "weather_impact_score",
+        "vehicle_flow"
+      ],
+      "metrics": {
+        "mae": 2.67,
+        "rmse": 3.54,
+        "r2_score": 0.979
+      },
+      "sample_comparison": [
+        {
+          "sample_index": 1,
+          "actual": 28.9,
+          "predicted": 26.27,
+          "lower_bound": 13.59,
+          "upper_bound": 38.95,
+          "uncertainty": 7.71
+        },
+        {
+          "sample_index": 2,
+          "actual": 15.1,
+          "predicted": 13.35,
+          "lower_bound": 8.29,
+          "upper_bound": 18.42,
+          "uncertainty": 3.08
+        },
+        {
+          "sample_index": 3,
+          "actual": 8.6,
+          "predicted": 8.11,
+          "lower_bound": 5.5,
+          "upper_bound": 10.73,
+          "uncertainty": 1.59
+        },
+        {
+          "sample_index": 4,
+          "actual": 47.1,
+          "predicted": 41.28,
+          "lower_bound": 36.55,
+          "upper_bound": 46.01,
+          "uncertainty": 2.88
+        },
+        {
+          "sample_index": 5,
+          "actual": 71.8,
+          "predicted": 80.11,
+          "lower_bound": 64.58,
+          "upper_bound": 95.64,
+          "uncertainty": 9.44
+        },
+        {
+          "sample_index": 6,
+          "actual": 98.0,
+          "predicted": 91.69,
+          "lower_bound": 80.86,
+          "upper_bound": 102.52,
+          "uncertainty": 6.59
+        },
+        {
+          "sample_index": 7,
+          "actual": 11.1,
+          "predicted": 11.05,
+          "lower_bound": 5.97,
+          "upper_bound": 16.13,
+          "uncertainty": 3.09
+        },
+        {
+          "sample_index": 8,
+          "actual": 12.3,
+          "predicted": 16.42,
+          "lower_bound": 2.85,
+          "upper_bound": 30.0,
+          "uncertainty": 8.25
+        },
+        {
+          "sample_index": 9,
+          "actual": 39.3,
+          "predicted": 37.94,
+          "lower_bound": 33.4,
+          "upper_bound": 42.48,
+          "uncertainty": 2.76
+        },
+        {
+          "sample_index": 10,
+          "actual": 40.2,
+          "predicted": 39.09,
+          "lower_bound": 35.98,
+          "upper_bound": 42.2,
+          "uncertainty": 1.89
+        },
+        {
+          "sample_index": 11,
+          "actual": 29.5,
+          "predicted": 30.26,
+          "lower_bound": 22.88,
+          "upper_bound": 37.63,
+          "uncertainty": 4.48
+        },
+        {
+          "sample_index": 12,
+          "actual": 29.5,
+          "predicted": 31.56,
+          "lower_bound": 21.55,
+          "upper_bound": 41.57,
+          "uncertainty": 6.08
+        },
+        {
+          "sample_index": 13,
+          "actual": 10.3,
+          "predicted": 10.16,
+          "lower_bound": 7.51,
+          "upper_bound": 12.82,
+          "uncertainty": 1.61
+        },
+        {
+          "sample_index": 14,
+          "actual": 42.4,
+          "predicted": 46.47,
+          "lower_bound": 35.98,
+          "upper_bound": 56.95,
+          "uncertainty": 6.37
+        },
+        {
+          "sample_index": 15,
+          "actual": 13.3,
+          "predicted": 10.71,
+          "lower_bound": 4.88,
+          "upper_bound": 16.54,
+          "uncertainty": 3.54
+        }
+      ],
+      "saved_path": "traffic_model.joblib"
+    },
+    "electricity": {
+      "model_name": "Power Demand Forecasting Random Forest Regressor",
+      "model_type": "RandomForestRegressor",
+      "target_variable": "power_demand_mw (MW)",
+      "dataset_file": "electricity_dataset.csv",
+      "total_samples": 2520,
+      "train_samples": 2016,
+      "test_samples": 504,
+      "features": [
+        "hour_of_day",
+        "day_of_week",
+        "is_weekend",
+        "ambient_temp_c",
+        "is_industrial_shift",
+        "prev_hour_mw",
+        "rolling_3h_mw",
+        "transformer_temp_c"
+      ],
+      "metrics": {
+        "mae": 2.66,
+        "rmse": 3.49,
+        "r2_score": 0.9922
+      },
+      "sample_comparison": [
+        {
+          "sample_index": 1,
+          "actual": 66.33,
+          "predicted": 69.69,
+          "lower_bound": 49.46,
+          "upper_bound": 89.92,
+          "uncertainty": 12.3
+        },
+        {
+          "sample_index": 2,
+          "actual": 90.95,
+          "predicted": 87.47,
+          "lower_bound": 82.14,
+          "upper_bound": 92.81,
+          "uncertainty": 3.25
+        },
+        {
+          "sample_index": 3,
+          "actual": 86.22,
+          "predicted": 90.01,
+          "lower_bound": 82.56,
+          "upper_bound": 97.46,
+          "uncertainty": 4.53
+        },
+        {
+          "sample_index": 4,
+          "actual": 101.66,
+          "predicted": 99.88,
+          "lower_bound": 98.05,
+          "upper_bound": 101.7,
+          "uncertainty": 1.11
+        },
+        {
+          "sample_index": 5,
+          "actual": 45.36,
+          "predicted": 43.19,
+          "lower_bound": 29.05,
+          "upper_bound": 57.33,
+          "uncertainty": 8.6
+        },
+        {
+          "sample_index": 6,
+          "actual": 132.37,
+          "predicted": 129.66,
+          "lower_bound": 111.57,
+          "upper_bound": 147.76,
+          "uncertainty": 11.0
+        },
+        {
+          "sample_index": 7,
+          "actual": 34.83,
+          "predicted": 35.37,
+          "lower_bound": 31.11,
+          "upper_bound": 39.64,
+          "uncertainty": 2.59
+        },
+        {
+          "sample_index": 8,
+          "actual": 72.5,
+          "predicted": 75.11,
+          "lower_bound": 68.25,
+          "upper_bound": 81.97,
+          "uncertainty": 4.17
+        },
+        {
+          "sample_index": 9,
+          "actual": 66.62,
+          "predicted": 69.48,
+          "lower_bound": 60.76,
+          "upper_bound": 78.21,
+          "uncertainty": 5.3
+        },
+        {
+          "sample_index": 10,
+          "actual": 68.68,
+          "predicted": 71.69,
+          "lower_bound": 65.02,
+          "upper_bound": 78.37,
+          "uncertainty": 4.06
+        },
+        {
+          "sample_index": 11,
+          "actual": 99.85,
+          "predicted": 101.4,
+          "lower_bound": 97.14,
+          "upper_bound": 105.67,
+          "uncertainty": 2.59
+        },
+        {
+          "sample_index": 12,
+          "actual": 101.5,
+          "predicted": 101.64,
+          "lower_bound": 97.14,
+          "upper_bound": 106.15,
+          "uncertainty": 2.74
+        },
+        {
+          "sample_index": 13,
+          "actual": 99.86,
+          "predicted": 104.87,
+          "lower_bound": 97.69,
+          "upper_bound": 112.05,
+          "uncertainty": 4.36
+        },
+        {
+          "sample_index": 14,
+          "actual": 58.82,
+          "predicted": 61.83,
+          "lower_bound": 38.95,
+          "upper_bound": 84.72,
+          "uncertainty": 13.91
+        },
+        {
+          "sample_index": 15,
+          "actual": 165.15,
+          "predicted": 162.43,
+          "lower_bound": 159.68,
+          "upper_bound": 165.18,
+          "uncertainty": 1.67
+        }
+      ],
+      "saved_path": "electricity_model.joblib"
+    },
+    "water_anomaly": {
+      "model_name": "Water Utility Isolation Forest Anomaly Detector",
+      "model_type": "IsolationForest",
+      "target_variable": "is_anomaly (Water Hydraulics)",
+      "dataset_file": "water_dataset.csv",
+      "total_samples": 2520,
+      "train_samples": 2016,
+      "test_samples": 504,
+      "features": [
+        "water_flow_lps",
+        "pressure_psi",
+        "reservoir_level_pct",
+        "flow_pressure_ratio",
+        "water_quality_index"
+      ],
+      "contamination": 0.05,
+      "calibrated_threshold": 0.5705,
+      "metrics": {
+        "precision": 0.8846,
+        "recall": 1.0,
+        "f1_score": 0.9388,
+        "accuracy": 0.994,
+        "true_positives": 23,
+        "false_positives": 3,
+        "false_negatives": 0,
+        "true_negatives": 478
+      },
+      "saved_path": "water_isolation_forest.joblib"
+    },
+    "multi_system_anomaly": {
+      "model_name": "Infrastructure Multi-System Isolation Forest Anomaly Detector",
+      "model_type": "IsolationForest",
+      "target_variable": "is_multi_system_anomaly (Cross-System)",
+      "dataset_file": "multi_system_anomaly_dataset.csv",
+      "total_samples": 2520,
+      "train_samples": 2016,
+      "test_samples": 504,
+      "features": [
+        "hour_of_day",
+        "traffic_congestion_pct",
+        "power_demand_mw",
+        "water_pressure_psi",
+        "water_flow_lps"
+      ],
+      "contamination": 0.04,
+      "calibrated_threshold": 0.5516,
+      "metrics": {
+        "precision": 0.875,
+        "recall": 0.9545,
+        "f1_score": 0.913,
+        "accuracy": 0.9921,
+        "true_positives": 21,
+        "false_positives": 3,
+        "false_negatives": 1,
+        "true_negatives": 479
+      },
+      "saved_path": "multi_system_isolation_forest.joblib"
+    }
+  }
+}

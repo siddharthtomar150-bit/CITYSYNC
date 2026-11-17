@@ -1,0 +1,1395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CITYSYNC — World-Class Smart City Intelligence & Predictive Decision Platform</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  
+  <!-- Enterprise SaaS Design System -->
+  <link rel="stylesheet" href="/static/css/style.css?v=2.3">
+</head>
+<body>
+
+  <div class="app-container">
+
+    <!-- 1. LEFT SIDEBAR NAVIGATION (13 SECTIONS) -->
+    <aside class="sidebar">
+      <div class="brand-header">
+        <div class="brand-left">
+          <div class="brand-icon">
+            <i class="fa-solid fa-city"></i>
+          </div>
+          <div class="brand-text">
+            <h1>CITYSYNC</h1>
+            <div class="brand-tag">Bengaluru Intelligence</div>
+          </div>
+        </div>
+        <button class="sidebar-toggle-btn" id="sidebar-toggle-btn" title="Toggle Sidebar">
+          <i class="fa-solid fa-bars-staggered"></i>
+        </button>
+      </div>
+
+      <nav class="nav-menu">
+        <a class="nav-item active" data-view="overview" title="Executive Overview">
+          <i class="fa-solid fa-chart-line"></i>
+          <span>1. Overview</span>
+        </a>
+        <a class="nav-item" data-view="digital-twin" title="City Digital Twin Map">
+          <i class="fa-solid fa-map-location-dot"></i>
+          <span>2. City Digital Twin</span>
+        </a>
+        <a class="nav-item" data-view="traffic" title="Traffic Intelligence">
+          <i class="fa-solid fa-traffic-light"></i>
+          <span>3. Traffic Intelligence</span>
+        </a>
+        <a class="nav-item" data-view="energy" title="Energy Intelligence">
+          <i class="fa-solid fa-bolt"></i>
+          <span>4. Energy Intelligence</span>
+        </a>
+        <a class="nav-item" data-view="water" title="Water Intelligence">
+          <i class="fa-solid fa-faucet-drip"></i>
+          <span>5. Water Intelligence</span>
+        </a>
+        <a class="nav-item" data-view="cross-system" title="Cross-System Intelligence">
+          <i class="fa-solid fa-diagram-project"></i>
+          <span>6. Cross-System Intel</span>
+        </a>
+        <a class="nav-item" data-view="predictions" title="AI Predictions">
+          <i class="fa-solid fa-brain"></i>
+          <span>7. AI Predictions</span>
+        </a>
+        <a class="nav-item" data-view="anomalies" title="Anomaly Detection">
+          <i class="fa-solid fa-wave-square"></i>
+          <span>8. Anomaly Detection</span>
+        </a>
+        <a class="nav-item" data-view="incidents" title="Incident Management">
+          <i class="fa-solid fa-triangle-exclamation"></i>
+          <span>9. Incident Center</span>
+        </a>
+        <a class="nav-item" data-view="recommendations" title="Smart Recommendations">
+          <i class="fa-solid fa-lightbulb"></i>
+          <span>10. Recommendations</span>
+        </a>
+        <a class="nav-item" data-view="reports" title="Analytics & Reports">
+          <i class="fa-solid fa-file-invoice"></i>
+          <span>11. Reports & Export</span>
+        </a>
+        <a class="nav-item" data-view="admin" title="Administration">
+          <i class="fa-solid fa-user-shield"></i>
+          <span>12. Administration</span>
+        </a>
+        <a class="nav-item" data-view="settings" title="System Settings">
+          <i class="fa-solid fa-gear"></i>
+          <span>13. Settings</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="live-badge" id="ws-connection-indicator">
+          <span class="pulse-dot"></span>
+          <span>LIVE ENGINE SYNC</span>
+        </div>
+        <div style="font-size:10px;color:var(--text-dim);margin-top:3px;">
+          CITYSYNC Platform v2.0
+        </div>
+      </div>
+    </aside>
+
+    <!-- 2. MAIN WORKSPACE WRAPPER -->
+    <main class="main-wrapper">
+
+      <!-- Premium Top Navigation Bar -->
+      <header class="topbar">
+        <div class="topbar-left">
+          <div class="breadcrumbs">
+            <span>CITYSYNC</span>
+            <i class="fa-solid fa-chevron-right" style="font-size:9px;"></i>
+            <span class="current" id="breadcrumb-current">Overview</span>
+          </div>
+
+          <!-- Global Search Container -->
+          <div class="global-search-container">
+            <i class="fa-solid fa-magnifying-glass search-icon-inside"></i>
+            <input type="text" id="global-search-input" class="global-search-input" placeholder="Search facilities, incidents, sectors..." autocomplete="off">
+            <div class="search-results-dropdown" id="global-search-results"></div>
+          </div>
+        </div>
+
+        <div class="topbar-right">
+          <!-- Hackathon Crisis Showcase Trigger -->
+          <button class="crisis-btn" id="btn-run-crisis">
+            <i class="fa-solid fa-bolt-lightning"></i>
+            <span>RUN CITY CRISIS SIMULATION</span>
+          </button>
+
+          <button class="reset-btn" id="btn-reset-demo" title="Reset all systems to baseline">
+            <i class="fa-solid fa-rotate-left"></i>
+            <span>Reset Demo</span>
+          </button>
+
+          <!-- Live Bengaluru Weather Indicator -->
+          <div class="weather-pill" id="bengaluru-weather-pill" title="Live Bengaluru Meteorological Telemetry (Open-Meteo API)" style="display:flex;align-items:center;gap:6px;background:rgba(6,182,212,0.12);border:1px solid rgba(6,182,212,0.3);padding:4px 10px;border-radius:20px;font-size:11px;font-weight:600;color:#67E8F9;">
+            <i class="fa-solid fa-cloud-sun" style="color:#22D3EE;font-size:12px;"></i>
+            <span id="topbar-weather-text">Bengaluru: 28°C</span>
+          </div>
+
+          <!-- Notification Dropdown Toggle -->
+          <button class="notification-btn" id="btn-notifications" title="System Notifications">
+            <i class="fa-regular fa-bell"></i>
+            <span class="notification-count" id="notification-badge-count">0</span>
+          </button>
+          <div class="notification-dropdown" id="notifications-dropdown">
+            <div style="padding:10px 14px;border-bottom:1px solid var(--border-color);font-weight:700;font-size:12px;color:#fff;">
+              Live Notification Feed
+            </div>
+            <div id="notifications-list" style="max-height:220px;overflow-y:auto;">
+              <div style="padding:10px;color:#9CA3AF;font-size:11px;">No active alerts.</div>
+            </div>
+          </div>
+
+          <!-- Fast Role Switcher -->
+          <div class="role-switcher">
+            <i class="fa-solid fa-shield-halved" style="color:var(--accent-cyan);font-size:11px;"></i>
+            <select id="role-select" title="Switch User Role">
+              <option value="super_admin">Super Administrator</option>
+              <option value="admin" selected>City Administrator</option>
+              <option value="traffic">Traffic Lead</option>
+              <option value="electricity">Grid Dispatcher</option>
+              <option value="water">Water Engineer</option>
+            </select>
+          </div>
+
+          <!-- User Profile & Modal Trigger -->
+          <button class="user-avatar-btn" id="btn-open-login-modal" title="User Account Management">
+            <div class="avatar-circle">
+              <span id="topbar-user-badge">ADM</span>
+            </div>
+          </button>
+        </div>
+      </header>
+
+      <!-- Sticky 10-Step Crisis Timeline Banner -->
+      <div class="crisis-banner" id="crisis-banner">
+        <div class="crisis-info">
+          <span class="crisis-step-badge" id="crisis-banner-step">STEP 1/10</span>
+          <div>
+            <div class="crisis-title" id="crisis-banner-title">Cascading Disaster Scenario Initiated</div>
+            <div class="crisis-desc" id="crisis-banner-desc">Analyzing interdependent infrastructure cascade...</div>
+          </div>
+        </div>
+        <span class="badge badge-critical">HACKATHON DEMO ACTIVE</span>
+      </div>
+
+      <!-- Main Body Container -->
+      <div class="content-body">
+
+        <!-- ============================================== -->
+        <!-- VIEW 1: OVERVIEW (COMMAND CENTER) -->
+        <!-- ============================================== -->
+        <section class="view-section active" id="view-overview">
+          
+          <div class="innovation-banner">
+            <div class="innovation-text">
+              <h3><i class="fa-solid fa-diagram-project"></i> CROSS-SYSTEM INTELLIGENCE ENGINE</h3>
+              <p>Topological dependency modeling across Electrical Substations, High-Capacity Water Pumping Stations, and Arterial Transportation Corridors.</p>
+            </div>
+            <button class="btn-primary" style="white-space:nowrap;padding:7px 12px;font-size:11px;" onclick="app.switchView('cross-system')">
+              Explore Cascade Chains
+            </button>
+          </div>
+
+          <!-- 6 Executive KPI Cards -->
+          <div class="kpi-grid">
+            <div class="kpi-card" id="card-kpi-traffic">
+              <div class="kpi-header">
+                <span class="kpi-label">Traffic Congestion</span>
+                <span class="kpi-status-dot status-good" id="kpi-traffic-dot"></span>
+              </div>
+              <div class="kpi-value-row">
+                <span class="kpi-value" id="kpi-traffic-val">--</span>
+              </div>
+              <div class="kpi-comparison" id="kpi-traffic-comp">Calculating trend...</div>
+            </div>
+
+            <div class="kpi-card" id="card-kpi-elec">
+              <div class="kpi-header">
+                <span class="kpi-label">Power Demand</span>
+                <span class="kpi-status-dot status-good" id="kpi-elec-dot"></span>
+              </div>
+              <div class="kpi-value-row">
+                <span class="kpi-value" id="kpi-elec-val">--</span>
+              </div>
+              <div class="kpi-comparison" id="kpi-elec-comp">Calculating trend...</div>
+            </div>
+
+            <div class="kpi-card" id="card-kpi-water">
+              <div class="kpi-header">
+                <span class="kpi-label">Water Pressure</span>
+                <span class="kpi-status-dot status-good" id="kpi-water-dot"></span>
+              </div>
+              <div class="kpi-value-row">
+                <span class="kpi-value" id="kpi-water-val">--</span>
+              </div>
+              <div class="kpi-comparison" id="kpi-water-comp">Calculating trend...</div>
+            </div>
+
+            <div class="kpi-card" id="card-kpi-incidents">
+              <div class="kpi-header">
+                <span class="kpi-label">Active Incidents</span>
+                <span class="kpi-status-dot status-good" id="kpi-incidents-dot"></span>
+              </div>
+              <div class="kpi-value-row">
+                <span class="kpi-value" id="kpi-incidents-val">--</span>
+              </div>
+              <div class="kpi-comparison" id="kpi-incidents-comp">Live tracking</div>
+            </div>
+
+            <div class="kpi-card" id="card-kpi-health">
+              <div class="kpi-header">
+                <span class="kpi-label">Infrastructure Health</span>
+                <span class="kpi-status-dot status-good" id="kpi-health-dot"></span>
+              </div>
+              <div class="kpi-value-row">
+                <span class="kpi-value" id="kpi-health-val">--</span>
+              </div>
+              <div class="kpi-comparison" id="kpi-health-comp">Optimal</div>
+            </div>
+
+            <div class="kpi-card" id="card-kpi-disruptions">
+              <div class="kpi-header">
+                <span class="kpi-label">Predicted Cascades</span>
+                <span class="kpi-status-dot status-good" id="kpi-disruptions-dot"></span>
+              </div>
+              <div class="kpi-value-row">
+                <span class="kpi-value" id="kpi-disruptions-val">--</span>
+              </div>
+              <div class="kpi-comparison" id="kpi-disruptions-comp">Engine forecasting</div>
+            </div>
+          </div>
+
+          <!-- Overview Real-Time Charts Grid -->
+          <div class="charts-grid">
+            <div class="card">
+              <div class="card-header">
+                <div class="card-title">
+                  <i class="fa-solid fa-traffic-light" style="color:var(--accent-cyan)"></i>
+                  <span>Traffic Congestion Dynamics</span>
+                </div>
+                <div class="card-subtitle">Real-time rolling arterial density</div>
+              </div>
+              <div style="height:210px;">
+                <canvas id="chart-traffic-overview"></canvas>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-header">
+                <div class="card-title">
+                  <i class="fa-solid fa-bolt" style="color:var(--accent-amber)"></i>
+                  <span>Substation Grid Power Demand</span>
+                </div>
+                <div class="card-subtitle">Aggregated Megawatts (MW) telemetry</div>
+              </div>
+              <div style="height:210px;">
+                <canvas id="chart-elec-overview"></canvas>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-header">
+                <div class="card-title">
+                  <i class="fa-solid fa-faucet-drip" style="color:var(--accent-blue)"></i>
+                  <span>Mains Hydraulic Pressure</span>
+                </div>
+                <div class="card-subtitle">Distribution loop pressure (PSI)</div>
+              </div>
+              <div style="height:210px;">
+                <canvas id="chart-water-overview"></canvas>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-header">
+                <div class="card-title">
+                  <i class="fa-solid fa-link" style="color:var(--accent-rose)"></i>
+                  <span>Cross-System Consequence Chains</span>
+                </div>
+                <div class="card-subtitle">Dependency engine cascades</div>
+              </div>
+              <div class="cascade-chain" id="overview-cascade-container" style="max-height:210px;overflow-y:auto;">
+                <!-- Dynamically populated -->
+              </div>
+            </div>
+          </div>
+
+          <!-- Live Activity Feed Table -->
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">
+                <i class="fa-solid fa-satellite-dish" style="color:var(--accent-emerald)"></i>
+                <span>Live Municipal Activity & Telemetry Stream</span>
+              </div>
+              <div class="card-subtitle">Automatic anomaly detection & alert propagation</div>
+            </div>
+            <div id="live-activity-feed" style="max-height:240px;overflow-y:auto;">
+              <!-- Dynamically populated -->
+            </div>
+          </div>
+
+        </section>
+
+        <!-- ============================================== -->
+        <!-- VIEW 2: CITY DIGITAL TWIN (MAP & INSPECTOR) -->
+        <!-- ============================================== -->
+        <section class="view-section" id="view-digital-twin">
+          <div class="card" style="padding:0;overflow:hidden;position:relative;">
+            <div class="map-wrapper" style="height:600px;">
+              
+              <!-- 2D / 3D Digital Twin Mode Switcher -->
+              <div class="map-filters mode-filters" style="top:14px;left:14px;right:auto;z-index:1001;">
+                <button class="filter-btn active" id="btn-mode-2d" onclick="cityMap.switchMode('2d')">
+                  <i class="fa-solid fa-map"></i> 2D Tactical GIS
+                </button>
+                <button class="filter-btn" id="btn-mode-3d" onclick="cityMap.switchMode('3d')">
+                  <i class="fa-solid fa-cube" style="color:var(--accent-cyan)"></i> 3D Bengaluru Digital Twin
+                </button>
+              </div>
+
+              <!-- Sector / Category Filter Pills -->
+              <div class="map-filters" style="top:14px;right:14px;z-index:1001;">
+                <button class="filter-btn active" onclick="cityMap.setFilter('all');document.querySelectorAll('.map-filters:not(.mode-filters) .filter-btn').forEach(b=>b.classList.remove('active'));this.classList.add('active');">All Assets</button>
+                <button class="filter-btn" onclick="cityMap.setFilter('traffic');document.querySelectorAll('.map-filters:not(.mode-filters) .filter-btn').forEach(b=>b.classList.remove('active'));this.classList.add('active');">Traffic (BTP)</button>
+                <button class="filter-btn" onclick="cityMap.setFilter('electricity');document.querySelectorAll('.map-filters:not(.mode-filters) .filter-btn').forEach(b=>b.classList.remove('active'));this.classList.add('active');">Power (BESCOM)</button>
+                <button class="filter-btn" onclick="cityMap.setFilter('water');document.querySelectorAll('.map-filters:not(.mode-filters) .filter-btn').forEach(b=>b.classList.remove('active'));this.classList.add('active');">Water (BWSSB)</button>
+              </div>
+
+              <!-- 2D Leaflet Container -->
+              <div id="leaflet-map" style="width:100%;height:100%;"></div>
+
+              <!-- 3D Three.js Digital Twin Container -->
+              <div id="three-container" style="width:100%;height:100%;position:absolute;top:0;left:0;display:none;background:#070B14;z-index:900;">
+                
+                <!-- 3D HUD Navigation Controls -->
+                <div style="position:absolute;bottom:16px;left:16px;z-index:950;display:flex;gap:6px;flex-wrap:wrap;">
+                  <button class="btn-secondary" style="font-size:11px;background:rgba(13,19,34,0.9);backdrop-filter:blur(6px);" onclick="threeTwin.toggleAutoRotate()">
+                    <i class="fa-solid fa-arrows-rotate" style="color:var(--accent-cyan);"></i> <span id="label-3d-rotate">Auto-Rotate 3D</span>
+                  </button>
+                  <button class="btn-secondary" style="font-size:11px;background:rgba(13,19,34,0.9);backdrop-filter:blur(6px);" onclick="threeTwin.resetCamera()">
+                    <i class="fa-solid fa-crosshairs"></i> Reset Camera
+                  </button>
+                  <button class="btn-secondary" style="font-size:11px;background:rgba(13,19,34,0.9);backdrop-filter:blur(6px);" onclick="threeTwin.focusHub('silkboard')">
+                    Silk Board Focus
+                  </button>
+                  <button class="btn-secondary" style="font-size:11px;background:rgba(13,19,34,0.9);backdrop-filter:blur(6px);" onclick="threeTwin.focusHub('ecity')">
+                    Electronic City Focus
+                  </button>
+                  <button class="btn-secondary" style="font-size:11px;background:rgba(13,19,34,0.9);backdrop-filter:blur(6px);" onclick="threeTwin.focusHub('cbd')">
+                    Central CBD Focus
+                  </button>
+                </div>
+
+                <!-- 3D HUD Telemetry Specs Badge -->
+                <div style="position:absolute;bottom:16px;right:16px;z-index:950;background:rgba(13,19,34,0.92);border:1px solid rgba(6,182,212,0.3);padding:10px 14px;border-radius:6px;font-family:var(--font-mono);font-size:11px;color:#94A3B8;box-shadow:0 8px 24px rgba(0,0,0,0.6);">
+                  <div style="color:#06B6D4;font-weight:700;display:flex;align-items:center;gap:6px;margin-bottom:2px;">
+                    <span style="width:7px;height:7px;border-radius:50%;background:#10B981;box-shadow:0 0 8px #10B981;display:inline-block;"></span>
+                    BENGALURU 3D DIGITAL TWIN
+                  </div>
+                  <div>Coords: 12.9716° N, 77.5946° E • Elev: 920m ASL</div>
+                  <div>Infrastructure: 18 Geo-Telemetry Nodes Active</div>
+                  <div style="color:#64748B;font-size:9.5px;margin-top:4px;">Left-drag to Orbit • Scroll to Zoom • Click Node to Inspect</div>
+                </div>
+
+              </div>
+
+              <!-- Slide-Out Facility Inspector Drawer -->
+              <div class="facility-drawer" id="facility-inspector-drawer">
+                <div class="facility-drawer-header">
+                  <div>
+                    <span class="badge badge-medium" id="drawer-node-code">CODE</span>
+                    <h3 style="color:#fff;font-size:15px;margin-top:4px;" id="drawer-node-name">Facility Name</h3>
+                    <div style="font-size:11px;color:#9CA3AF;" id="drawer-node-sector">Sector 1</div>
+                  </div>
+                  <button class="drawer-close-btn" id="btn-close-drawer">&times;</button>
+                </div>
+
+                <div style="margin-bottom:14px;">
+                  <span id="drawer-node-status" class="badge badge-low">NORMAL</span>
+                  <div style="font-size:11.5px;color:#CBD5E1;margin-top:6px;" id="drawer-node-desc">Description</div>
+                  <div style="font-size:11px;color:#9CA3AF;margin-top:4px;">Capacity: <strong id="drawer-node-capacity" style="color:#fff;">--</strong></div>
+                </div>
+
+                <div style="margin-bottom:16px;">
+                  <div style="font-size:11px;font-weight:700;color:var(--text-muted);text-transform:uppercase;margin-bottom:6px;">
+                    Telemetry Trend (Last 20 Cycles)
+                  </div>
+                  <div style="height:150px;background:var(--bg-surface);padding:8px;border-radius:6px;border:1px solid var(--border-color);">
+                    <canvas id="drawer-sparkline-canvas"></canvas>
+                  </div>
+                </div>
+
+                <div>
+                  <div style="font-size:11px;font-weight:700;color:var(--text-muted);text-transform:uppercase;margin-bottom:6px;">
+                    Linked Municipal Incidents
+                  </div>
+                  <div id="drawer-incidents-list">
+                    <!-- Dynamically populated -->
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+          <div style="font-size:11px;color:var(--text-dim);text-align:right;">
+            <i class="fa-solid fa-circle-info"></i> Click any pin to open the live Facility Telemetry Inspector Drawer.
+          </div>
+        </section>
+
+        <!-- ============================================== -->
+        <!-- ============================================== -->
+        <!-- VIEW 3: TRAFFIC INTELLIGENCE -->
+        <!-- ============================================== -->
+        <section class="view-section" id="view-traffic">
+          <div class="card-header" style="margin-bottom:12px;">
+            <div>
+              <h3 style="font-size:16px;color:#fff;">Traffic Corridors & Arterial Monitoring</h3>
+              <div style="font-size:12px;color:var(--text-muted);">Real-time vehicle density, congestion levels, corridor telemetry, and congestion forecasting (BTP Integration)</div>
+            </div>
+            <div style="display:flex;gap:8px;align-items:center;">
+              <span class="badge badge-low" id="traffic-network-status-badge">NETWORK FLUID</span>
+              <span class="badge badge-medium" id="traffic-peak-badge">STANDARD OPERATING FLOW</span>
+            </div>
+          </div>
+
+          <!-- Top Traffic KPIs -->
+          <div class="kpi-grid" style="margin-bottom:16px;">
+            <div class="kpi-card">
+              <div class="kpi-header">
+                <span class="kpi-label">Average City Congestion</span>
+                <span class="kpi-status-dot status-warning"></span>
+              </div>
+              <div class="kpi-value" id="traffic-kpi-avg-cong">--%</div>
+              <div class="kpi-sub">Across 6 Bengaluru arterial highways</div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-header">
+                <span class="kpi-label">Total Hourly Flow</span>
+                <span class="kpi-status-dot status-good"></span>
+              </div>
+              <div class="kpi-value" id="traffic-kpi-total-flow">-- veh/hr</div>
+              <div class="kpi-sub">Real-time aggregate throughput</div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-header">
+                <span class="kpi-label">Average Arterial Speed</span>
+                <span class="kpi-status-dot status-good"></span>
+              </div>
+              <div class="kpi-value" id="traffic-kpi-avg-speed">-- km/h</div>
+              <div class="kpi-sub">Citywide corridor median velocity</div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-header">
+                <span class="kpi-label">Active Road Bottlenecks</span>
+                <span class="kpi-status-dot status-danger"></span>
+              </div>
+              <div class="kpi-value" id="traffic-kpi-bottlenecks">--</div>
+              <div class="kpi-sub">Segments operating above 75% capacity</div>
+            </div>
+          </div>
+
+          <!-- Traffic Chart -->
+          <div class="card" style="margin-bottom:16px;">
+            <div class="card-header">
+              <div class="card-title">
+                <i class="fa-solid fa-chart-line" style="color:var(--accent-cyan)"></i>
+                <span>Arterial Telemetry: Congestion Level (%) vs Average Speed (km/h)</span>
+              </div>
+              <div class="card-subtitle">Real-time dynamic multi-corridor trend</div>
+            </div>
+            <div style="height:220px;">
+              <canvas id="chart-traffic-detail"></canvas>
+            </div>
+          </div>
+
+          <!-- Corridors Table & Action Controls -->
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">Bengaluru Road Corridors Directory</div>
+              <div style="display:flex;gap:6px;">
+                <button class="filter-btn active" onclick="app.filterTrafficCorridors('all')">All Segments</button>
+                <button class="filter-btn" onclick="app.filterTrafficCorridors('congested')">Congested Only</button>
+                <button class="filter-btn" onclick="app.filterTrafficCorridors('fluid')">Fluid Flow</button>
+              </div>
+            </div>
+            <div class="table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Corridor Name</th>
+                    <th>Urban Sector</th>
+                    <th>Congestion Level</th>
+                    <th>Vehicle Flow</th>
+                    <th>Avg Speed</th>
+                    <th>Road Occupancy</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="traffic-corridors-table-body">
+                  <!-- Dynamically populated -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============================================== -->
+        <!-- VIEW 4: ENERGY INTELLIGENCE -->
+        <!-- ============================================== -->
+        <section class="view-section" id="view-energy">
+          <div class="card-header" style="margin-bottom:12px;">
+            <div>
+              <h3 style="font-size:16px;color:#fff;">Electrical Grid Substations & Load Management</h3>
+              <div style="font-size:12px;color:var(--text-muted);">Transformer core temperatures, capacity utilization, breaker status, and overload alerts (BESCOM / KPTCL)</div>
+            </div>
+            <div style="display:flex;gap:8px;align-items:center;">
+              <span class="badge badge-low" id="energy-status-badge">GRID STABLE</span>
+              <span class="badge badge-medium" id="energy-frequency-badge">50.02 HZ</span>
+            </div>
+          </div>
+
+          <!-- Top Energy KPIs -->
+          <div class="kpi-grid" style="margin-bottom:16px;">
+            <div class="kpi-card">
+              <div class="kpi-header">
+                <span class="kpi-label">Active Power Demand</span>
+                <span class="kpi-status-dot status-warning"></span>
+              </div>
+              <div class="kpi-value" id="energy-kpi-demand">-- MW</div>
+              <div class="kpi-sub">Total city instantaneous draw</div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-header">
+                <span class="kpi-label">Total Grid Capacity</span>
+                <span class="kpi-status-dot status-good"></span>
+              </div>
+              <div class="kpi-value" id="energy-kpi-capacity">-- MW</div>
+              <div class="kpi-sub">Substation nameplate aggregate</div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-header">
+                <span class="kpi-label">Overall Grid Utilization</span>
+                <span class="kpi-status-dot status-good"></span>
+              </div>
+              <div class="kpi-value" id="energy-kpi-load">--%</div>
+              <div class="kpi-sub">Systemwide load envelope</div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-header">
+                <span class="kpi-label">Overloaded Substations</span>
+                <span class="kpi-status-dot status-danger"></span>
+              </div>
+              <div class="kpi-value" id="energy-kpi-overloads">--</div>
+              <div class="kpi-sub">Units operating &gt; 90% threshold</div>
+            </div>
+          </div>
+
+          <!-- Energy Chart -->
+          <div class="card" style="margin-bottom:16px;">
+            <div class="card-header">
+              <div class="card-title">
+                <i class="fa-solid fa-bolt" style="color:var(--accent-amber)"></i>
+                <span>Substation MW Demand & Transformer Core Thermal Profile</span>
+              </div>
+              <div class="card-subtitle">Grid draw vs transformer core heating</div>
+            </div>
+            <div style="height:220px;">
+              <canvas id="chart-energy-detail"></canvas>
+            </div>
+          </div>
+
+          <!-- Substations Table -->
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">BESCOM / KPTCL Substation Directory</div>
+              <div style="display:flex;gap:6px;">
+                <button class="filter-btn active" onclick="app.filterEnergySubstations('all')">All Substations</button>
+                <button class="filter-btn" onclick="app.filterEnergySubstations('overloaded')">Overloaded (&gt;90%)</button>
+                <button class="filter-btn" onclick="app.filterEnergySubstations('normal')">Normal Load</button>
+              </div>
+            </div>
+            <div class="table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Substation Name</th>
+                    <th>Zone</th>
+                    <th>Active Load / Capacity</th>
+                    <th>Utilization</th>
+                    <th>Transformer Temp</th>
+                    <th>Frequency</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="energy-substations-table-body">
+                  <!-- Dynamically populated -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============================================== -->
+        <!-- VIEW 5: WATER INTELLIGENCE -->
+        <!-- ============================================== -->
+        <section class="view-section" id="view-water">
+          <div class="card-header" style="margin-bottom:12px;">
+            <div>
+              <h3 style="font-size:16px;color:#fff;">Municipal Water Pumping & Distribution Infrastructure</h3>
+              <div style="font-size:12px;color:var(--text-muted);">Pumping plant flow rates, mains pressure, reservoir levels, and acoustic leak indicators (BWSSB)</div>
+            </div>
+            <div style="display:flex;gap:8px;align-items:center;">
+              <span class="badge badge-low" id="water-status-badge">PRESSURE NORMAL</span>
+              <span class="badge badge-medium" id="water-reserves-badge">RESERVES 78%</span>
+            </div>
+          </div>
+
+          <!-- Top Water KPIs -->
+          <div class="kpi-grid" style="margin-bottom:16px;">
+            <div class="kpi-card">
+              <div class="kpi-header">
+                <span class="kpi-label">Aggregate Distribution Flow</span>
+                <span class="kpi-status-dot status-good"></span>
+              </div>
+              <div class="kpi-value" id="water-kpi-flow">-- L/s</div>
+              <div class="kpi-sub">Total municipal discharge rate</div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-header">
+                <span class="kpi-label">Average Mains Pressure</span>
+                <span class="kpi-status-dot status-good"></span>
+              </div>
+              <div class="kpi-value" id="water-kpi-pressure">-- PSI</div>
+              <div class="kpi-sub">Mains hydraulic gradient</div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-header">
+                <span class="kpi-label">Water Quality Index (WQI)</span>
+                <span class="kpi-status-dot status-good"></span>
+              </div>
+              <div class="kpi-value" id="water-kpi-quality">-- / 100</div>
+              <div class="kpi-sub">Turbidity & chlorine residual</div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-header">
+                <span class="kpi-label">Active Leak Alerts</span>
+                <span class="kpi-status-dot status-danger"></span>
+              </div>
+              <div class="kpi-value" id="water-kpi-leaks">--</div>
+              <div class="kpi-sub">Acoustic sensor drop triggers</div>
+            </div>
+          </div>
+
+          <!-- Water Chart -->
+          <div class="card" style="margin-bottom:16px;">
+            <div class="card-header">
+              <div class="card-title">
+                <i class="fa-solid fa-water" style="color:var(--accent-blue)"></i>
+                <span>Mains Pressure (PSI) & Bulk Flow Rate (L/s) Telemetry</span>
+              </div>
+              <div class="card-subtitle">Hydraulic pressure gradient vs pump plant discharge</div>
+            </div>
+            <div style="height:220px;">
+              <canvas id="chart-water-detail"></canvas>
+            </div>
+          </div>
+
+          <!-- Water Facilities Table -->
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">BWSSB Municipal Water Facilities Directory</div>
+              <div style="display:flex;gap:6px;">
+                <button class="filter-btn active" onclick="app.filterWaterFacilities('all')">All Facilities</button>
+                <button class="filter-btn" onclick="app.filterWaterFacilities('alerts')">Leak Alerts / Pressure Drops</button>
+                <button class="filter-btn" onclick="app.filterWaterFacilities('normal')">Normal Status</button>
+              </div>
+            </div>
+            <div class="table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Facility Name</th>
+                    <th>Zone</th>
+                    <th>Mains Pressure</th>
+                    <th>Discharge Flow</th>
+                    <th>Reservoir Level</th>
+                    <th>Quality Index</th>
+                    <th>Leak Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="water-facilities-table-body">
+                  <!-- Dynamically populated -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============================================== -->
+        <!-- VIEW 6: CROSS-SYSTEM INTELLIGENCE (FLAGSHIP) -->
+        <!-- ============================================== -->
+        <section class="view-section" id="view-cross-system">
+          <div class="card-header" style="margin-bottom:12px;">
+            <div>
+              <h3 style="font-size:16px;color:#fff;">Interconnected Infrastructure Dependency Engine</h3>
+              <div style="font-size:12px;color:var(--text-muted);">Multi-domain cascading failure analysis across Power, Water, Traffic & Emergency Fleets</div>
+            </div>
+            <span class="badge badge-high">ENGINE ACTIVE</span>
+          </div>
+
+          <!-- 3 Master Scenarios Interactive Showcase -->
+          <div class="charts-grid" style="margin-bottom:16px;">
+            <div class="card" style="border-left:4px solid #EF4444;">
+              <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;">
+                <div>
+                  <span class="badge badge-critical" style="margin-bottom:4px;">SCENARIO 1: POWER ➔ WATER CASUALTY</span>
+                  <h4 style="font-size:13.5px;color:#fff;margin-top:4px;">Electronic City Substation Surge ➔ BWSSB Cauvery Stage IV Trip</h4>
+                </div>
+              </div>
+              <p style="font-size:11.5px;color:#9CA3AF;line-height:1.5;margin-bottom:10px;">
+                Grid overload at Electronic City 220kV causes feeder breaker trip. Connected Cauvery Stage IV pumping units shut down, causing mains pressure collapse in South Bengaluru.
+              </p>
+              <div style="background:var(--bg-surface);padding:8px 10px;border-radius:4px;font-size:11px;margin-bottom:12px;color:#CBD5E1;">
+                <strong>Estimated Time to Deficit:</strong> 42 minutes • <strong>Affected Population:</strong> 650,000 residents
+              </div>
+              <button class="btn-primary" style="width:100%;font-size:11px;padding:6px 12px;" onclick="app.triggerScenarioDemo(1)">
+                <i class="fa-solid fa-play"></i> Simulate Scenario 1 Cascade
+              </button>
+            </div>
+
+            <div class="card" style="border-left:4px solid #F59E0B;">
+              <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;">
+                <div>
+                  <span class="badge badge-high" style="margin-bottom:4px;">SCENARIO 2: TRAFFIC ➔ EMERGENCY DELAY</span>
+                  <h4 style="font-size:13.5px;color:#fff;margin-top:4px;">Central Silk Board Gridlock ➔ Emergency Fleet Blockade</h4>
+                </div>
+              </div>
+              <p style="font-size:11.5px;color:#9CA3AF;line-height:1.5;margin-bottom:10px;">
+                Major freight collision at Central Silk Board creates 98% gridlock across Outer Ring Road and Hosur Road, delaying utility maintenance crews and fire tenders by 48 minutes.
+              </p>
+              <div style="background:var(--bg-surface);padding:8px 10px;border-radius:4px;font-size:11px;margin-bottom:12px;color:#CBD5E1;">
+                <strong>Response Delay Penalty:</strong> +48 min • <strong>Corridors Jammed:</strong> 3 Expressways
+              </div>
+              <button class="btn-secondary" style="width:100%;font-size:11px;padding:6px 12px;" onclick="app.triggerScenarioDemo(2)">
+                <i class="fa-solid fa-play"></i> Simulate Scenario 2 Cascade
+              </button>
+            </div>
+
+            <div class="card" style="border-left:4px solid #06B6D4;">
+              <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;">
+                <div>
+                  <span class="badge badge-medium" style="margin-bottom:4px;">SCENARIO 3: DEMAND ➔ SCHEDULE CONCURRENCY</span>
+                  <h4 style="font-size:13.5px;color:#fff;margin-top:4px;">Peak Grid Concurrency ➔ Pumping Rescheduling Optimization</h4>
+                </div>
+              </div>
+              <p style="font-size:11.5px;color:#9CA3AF;line-height:1.5;margin-bottom:10px;">
+                Afternoon temperature spike drives HVAC demand above 115 MW. CitySync coordinates with BWSSB to stagger heavy pump fill cycles to off-peak hours, preventing brownouts.
+              </p>
+              <div style="background:var(--bg-surface);padding:8px 10px;border-radius:4px;font-size:11px;margin-bottom:12px;color:#CBD5E1;">
+                <strong>Peak Demand Offset:</strong> -18.5 MW • <strong>Grid Protection:</strong> 100% Intact
+              </div>
+              <button class="btn-secondary" style="width:100%;font-size:11px;padding:6px 12px;" onclick="app.triggerScenarioDemo(3)">
+                <i class="fa-solid fa-play"></i> Simulate Scenario 3 Cascade
+              </button>
+            </div>
+          </div>
+
+          <!-- Active Cascades Feed -->
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">Active Propagating Cascade Chains</div>
+              <div class="card-subtitle">Real-time correlated multi-system disruption chains</div>
+            </div>
+            <div id="cross-system-cards-container">
+              <!-- Dynamically populated -->
+            </div>
+          </div>
+        </section>
+
+        <!-- ============================================== -->
+        <!-- VIEW 7: AI PREDICTIONS & ML MODELS -->
+        <!-- ============================================== -->
+        <section class="view-section" id="view-predictions">
+          <div class="card-header" style="margin-bottom:12px;">
+            <div>
+              <h3 style="font-size:16px;color:#fff;">Machine Learning & Predictive Forecasting Suite</h3>
+              <div style="font-size:12px;color:var(--text-muted);">Random Forest Regressors, Isolation Forest Anomaly Detection, and 90% Confidence Envelopes</div>
+            </div>
+          </div>
+
+          <!-- ML Model Telemetry Cards -->
+          <div class="kpi-grid" style="margin-bottom:16px;">
+            <div class="kpi-card">
+              <div class="kpi-header">
+                <span class="kpi-label">Traffic Random Forest</span>
+                <span class="badge badge-low">TRAINED</span>
+              </div>
+              <div style="font-size:13px;color:#fff;margin-top:4px;">
+                <strong>Test R²:</strong> <span id="ml-traffic-r2" style="color:var(--accent-emerald);font-family:var(--font-mono);font-weight:700;">--</span>
+              </div>
+              <div style="font-size:11px;color:var(--text-muted);margin-top:2px;">
+                MAE: <span id="ml-traffic-mae">--</span> | RMSE: <span id="ml-traffic-rmse">--</span>
+              </div>
+              <div style="font-size:10px;color:var(--text-dim);margin-top:4px;">
+                Samples: <span id="ml-traffic-samples">--</span>
+              </div>
+            </div>
+
+            <div class="kpi-card">
+              <div class="kpi-header">
+                <span class="kpi-label">Power Demand Random Forest</span>
+                <span class="badge badge-low">TRAINED</span>
+              </div>
+              <div style="font-size:13px;color:#fff;margin-top:4px;">
+                <strong>Test R²:</strong> <span id="ml-elec-r2" style="color:var(--accent-emerald);font-family:var(--font-mono);font-weight:700;">--</span>
+              </div>
+              <div style="font-size:11px;color:var(--text-muted);margin-top:2px;">
+                MAE: <span id="ml-elec-mae">--</span> | RMSE: <span id="ml-elec-rmse">--</span>
+              </div>
+              <div style="font-size:10px;color:var(--text-dim);margin-top:4px;">
+                Samples: <span id="ml-elec-samples">--</span>
+              </div>
+            </div>
+
+            <div class="kpi-card">
+              <div class="kpi-header">
+                <span class="kpi-label">Water Isolation Forest</span>
+                <span class="badge badge-low">TRAINED</span>
+              </div>
+              <div style="font-size:13px;color:#fff;margin-top:4px;">
+                <strong>F1 Score:</strong> <span id="ml-water-if-f1" style="color:var(--accent-emerald);font-family:var(--font-mono);font-weight:700;">--</span>
+              </div>
+              <div style="font-size:11px;color:var(--text-muted);margin-top:2px;">
+                Precision: <span id="ml-water-if-p">--</span> | Recall: <span id="ml-water-if-r">--</span>
+              </div>
+              <div style="font-size:10px;color:var(--text-dim);margin-top:4px;">
+                Hydraulics Anomaly Tree
+              </div>
+            </div>
+
+            <div class="kpi-card">
+              <div class="kpi-header">
+                <span class="kpi-label">Multi-System Isolation Forest</span>
+                <span class="badge badge-low">TRAINED</span>
+              </div>
+              <div style="font-size:13px;color:#fff;margin-top:4px;">
+                <strong>F1 Score:</strong> <span id="ml-multi-if-f1" style="color:var(--accent-emerald);font-family:var(--font-mono);font-weight:700;">--</span>
+              </div>
+              <div style="font-size:11px;color:var(--text-muted);margin-top:2px;">
+                Precision: <span id="ml-multi-if-p">--</span> | Recall: <span id="ml-multi-if-r">--</span>
+              </div>
+              <div style="font-size:10px;color:var(--text-dim);margin-top:4px;">
+                Cross-System Anomaly Tree
+              </div>
+            </div>
+          </div>
+
+          <!-- ML Actual vs Predicted Charts -->
+          <div class="charts-grid" style="margin-bottom:16px;">
+            <div class="card">
+              <div class="card-header">
+                <div class="card-title">Traffic Congestion: Actual vs Random Forest (with 90% Bounds)</div>
+              </div>
+              <div style="height:230px;">
+                <canvas id="chart-ml-traffic-comparison"></canvas>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-header">
+                <div class="card-title">Power Demand: Actual vs Forecast (with 90% Bounds)</div>
+              </div>
+              <div style="height:230px;">
+                <canvas id="chart-ml-elec-comparison"></canvas>
+              </div>
+            </div>
+          </div>
+
+          <!-- Live Prediction Sandbox 1: Traffic -->
+          <div class="card" style="margin-bottom:16px;">
+            <div class="card-header">
+              <div class="card-title">
+                <i class="fa-solid fa-calculator" style="color:var(--accent-cyan)"></i>
+                <span>Traffic Random Forest Regressor Sandbox</span>
+              </div>
+              <div class="card-subtitle">Pass custom features directly to trained joblib model</div>
+            </div>
+            <form id="form-ml-traffic-predict" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin-bottom:12px;">
+              <div>
+                <label style="font-size:11px;color:var(--text-muted);">Hour of Day (0-23)</label>
+                <input type="number" id="ml-input-hour" class="form-control" value="18" min="0" max="23">
+              </div>
+              <div>
+                <label style="font-size:11px;color:var(--text-muted);">Day of Week (0-6)</label>
+                <input type="number" id="ml-input-dow" class="form-control" value="2" min="0" max="6">
+              </div>
+              <div>
+                <label style="font-size:11px;color:var(--text-muted);">Prev Hour Cong (%)</label>
+                <input type="number" id="ml-input-prev-cong" class="form-control" value="72" step="0.1">
+              </div>
+              <div>
+                <label style="font-size:11px;color:var(--text-muted);">Rolling 3h Cong (%)</label>
+                <input type="number" id="ml-input-roll-cong" class="form-control" value="65" step="0.1">
+              </div>
+              <div>
+                <label style="font-size:11px;color:var(--text-muted);">Weather Factor</label>
+                <input type="number" id="ml-input-weather" class="form-control" value="1.1" step="0.05">
+              </div>
+              <div>
+                <label style="font-size:11px;color:var(--text-muted);">Flow (veh/hr)</label>
+                <input type="number" id="ml-input-flow" class="form-control" value="1400">
+              </div>
+              <div style="display:flex;align-items:flex-end;">
+                <button type="submit" class="btn-primary" style="width:100%;height:36px;">
+                  Predict Congestion
+                </button>
+              </div>
+            </form>
+            <div id="ml-traffic-pred-result"></div>
+          </div>
+
+          <!-- Live Prediction Sandbox 2: Electricity -->
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">
+                <i class="fa-solid fa-bolt" style="color:var(--accent-amber)"></i>
+                <span>Electrical Power Demand Forecast Sandbox</span>
+              </div>
+              <div class="card-subtitle">Forecast MW demand and evaluate overload risk</div>
+            </div>
+            <form id="form-ml-elec-predict" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin-bottom:12px;">
+              <div>
+                <label style="font-size:11px;color:var(--text-muted);">Hour (0-23)</label>
+                <input type="number" id="ml-elec-hour" class="form-control" value="15" min="0" max="23">
+              </div>
+              <div>
+                <label style="font-size:11px;color:var(--text-muted);">Day of Week (0-6)</label>
+                <input type="number" id="ml-elec-dow" class="form-control" value="3" min="0" max="6">
+              </div>
+              <div>
+                <label style="font-size:11px;color:var(--text-muted);">Ambient Temp (°C)</label>
+                <input type="number" id="ml-elec-temp" class="form-control" value="32.5" step="0.1">
+              </div>
+              <div>
+                <label style="font-size:11px;color:var(--text-muted);">Prev Hour MW</label>
+                <input type="number" id="ml-elec-prev-mw" class="form-control" value="98.0" step="0.5">
+              </div>
+              <div>
+                <label style="font-size:11px;color:var(--text-muted);">Transformer Temp (°C)</label>
+                <input type="number" id="ml-elec-trans-temp" class="form-control" value="68.0" step="0.5">
+              </div>
+              <div style="display:flex;align-items:flex-end;">
+                <button type="submit" class="btn-primary" style="width:100%;height:36px;">
+                  Forecast MW Load
+                </button>
+              </div>
+            </form>
+            <div id="ml-elec-pred-result"></div>
+          </div>
+        </section>
+
+        <!-- ============================================== -->
+        <!-- VIEW 8: ANOMALY DETECTION CENTER -->
+        <!-- ============================================== -->
+        <section class="view-section" id="view-anomalies">
+          <div class="card">
+            <div class="card-header">
+              <div>
+                <h3 style="font-size:16px;color:#fff;">Statistical &amp; Isolation Forest Anomaly Detection Center</h3>
+                <div style="font-size:12px;color:var(--text-muted);">Z-Score deviations, multi-variate anomalies, confidence scores, and resolution statuses</div>
+              </div>
+              <div style="display:flex;gap:6px;flex-wrap:wrap;">
+                <button class="filter-btn active" onclick="app.filterAnomalies('all')">All Anomalies</button>
+                <button class="filter-btn" onclick="app.filterAnomalies('critical')">Critical Only</button>
+                <button class="filter-btn" onclick="app.filterAnomalies('warning')">Warning</button>
+                <button class="filter-btn" onclick="app.filterAnomalies('resolved')">Resolved</button>
+              </div>
+            </div>
+            <div class="table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Anomaly ID</th>
+                    <th>Event Type</th>
+                    <th>Category</th>
+                    <th>Severity</th>
+                    <th>Location</th>
+                    <th>Value vs Baseline</th>
+                    <th>Detection Method</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody id="anomalies-table-body">
+                  <!-- Dynamically populated -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============================================== -->
+        <!-- VIEW 9: INCIDENT MANAGEMENT -->
+        <!-- ============================================== -->
+        <section class="view-section" id="view-incidents">
+          <div class="card">
+            <div class="card-header">
+              <div>
+                <h3 style="font-size:16px;color:#fff;">Municipal Incident Management Center</h3>
+                <div style="font-size:12px;color:var(--text-muted);">Lifecycle tracking: Open, Investigating, Assigned, and Resolved (BTP, BESCOM, BWSSB)</div>
+              </div>
+              <div style="display:flex;gap:8px;">
+                <button class="btn-primary" id="btn-open-create-incident">
+                  <i class="fa-solid fa-plus"></i> Report Incident
+                </button>
+              </div>
+            </div>
+            <!-- Incident Filters -->
+            <div style="padding:0 16px 12px 16px;display:flex;gap:6px;flex-wrap:wrap;">
+              <button class="filter-btn active" onclick="app.filterIncidents('all')">All Incidents</button>
+              <button class="filter-btn" onclick="app.filterIncidents('traffic')">Traffic (BTP)</button>
+              <button class="filter-btn" onclick="app.filterIncidents('electricity')">Electricity (BESCOM)</button>
+              <button class="filter-btn" onclick="app.filterIncidents('water')">Water (BWSSB)</button>
+              <button class="filter-btn" onclick="app.filterIncidents('open')">Active Only</button>
+              <button class="filter-btn" onclick="app.filterIncidents('resolved')">Resolved</button>
+            </div>
+            <div class="table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Incident #</th>
+                    <th>Title</th>
+                    <th>Category</th>
+                    <th>Severity</th>
+                    <th>Location</th>
+                    <th>Dept</th>
+                    <th>Status</th>
+                    <th>Manage</th>
+                  </tr>
+                </thead>
+                <tbody id="incidents-table-body">
+                  <!-- Dynamically populated -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============================================== -->
+        <!-- VIEW 10: RECOMMENDATIONS -->
+        <!-- ============================================== -->
+        <section class="view-section" id="view-recommendations">
+          <div class="card-header" style="margin-bottom:12px;">
+            <div>
+              <h3 style="font-size:16px;color:#fff;">Smart Decision-Support Recommendations</h3>
+              <div style="font-size:12px;color:var(--text-muted);">Answers: What happened? Why it matters? Affected assets? Suggested action? Priority?</div>
+            </div>
+            <div style="display:flex;gap:6px;">
+              <button class="filter-btn active" onclick="app.filterRecommendations('all')">All</button>
+              <button class="filter-btn" onclick="app.filterRecommendations('pending')">Pending Review</button>
+              <button class="filter-btn" onclick="app.filterRecommendations('applied')">Authorized</button>
+            </div>
+          </div>
+          <div id="recommendations-list-container">
+            <!-- Dynamically populated -->
+          </div>
+        </section>
+
+        <!-- ============================================== -->
+        <!-- VIEW 11: REPORTS & CSV EXPORT -->
+        <!-- ============================================== -->
+        <section class="view-section" id="view-reports">
+          <div class="card">
+            <div class="card-header">
+              <div>
+                <div class="card-title">Executive Municipal Infrastructure Summary</div>
+                <div class="card-subtitle">Automated compliance, daily audits, and telemetry data exports</div>
+              </div>
+              <div style="display:flex;gap:8px;flex-wrap:wrap;">
+                <button class="btn-primary" style="font-size:11px;" onclick="window.print()">
+                  <i class="fa-solid fa-print"></i> Print / Export PDF
+                </button>
+                <button class="btn-secondary" style="font-size:11px;" onclick="api.downloadCSV('incidents')">
+                  <i class="fa-solid fa-download"></i> Incidents CSV
+                </button>
+                <button class="btn-secondary" style="font-size:11px;" onclick="api.downloadCSV('anomalies')">
+                  <i class="fa-solid fa-download"></i> Anomalies CSV
+                </button>
+                <button class="btn-secondary" style="font-size:11px;" onclick="api.downloadCSV('traffic')">
+                  <i class="fa-solid fa-download"></i> Traffic CSV
+                </button>
+                <button class="btn-secondary" style="font-size:11px;" onclick="api.downloadCSV('electricity')">
+                  <i class="fa-solid fa-download"></i> Electricity CSV
+                </button>
+                <button class="btn-secondary" style="font-size:11px;" onclick="api.downloadCSV('water')">
+                  <i class="fa-solid fa-download"></i> Water CSV
+                </button>
+              </div>
+            </div>
+            <div id="daily-report-preview">
+              <!-- Dynamically populated -->
+            </div>
+          </div>
+        </section>
+
+        <!-- ============================================== -->
+        <!-- VIEW 12: ADMINISTRATION -->
+        <!-- ============================================== -->
+        <section class="view-section" id="view-admin">
+          <!-- Simulation Cockpit -->
+          <div class="card" style="margin-bottom:16px;">
+            <div class="card-header">
+              <div>
+                <div class="card-title">Background Telemetry Simulation Engine Cockpit</div>
+                <div class="card-subtitle">Control real-time sensor generation, diurnal cycling, and weather impacts</div>
+              </div>
+              <div style="display:flex;gap:8px;align-items:center;">
+                <span class="badge badge-low" id="admin-sim-status-badge">ENGINE RUNNING</span>
+                <button class="btn-secondary" style="font-size:11px;" id="admin-btn-toggle-sim" onclick="app.toggleSimulationEngine()">
+                  <i class="fa-solid fa-pause"></i> Pause Simulation
+                </button>
+                <button class="btn-primary" style="font-size:11px;" onclick="app.injectSimulatedAnomaly()">
+                  <i class="fa-solid fa-triangle-exclamation"></i> Inject Test Event
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- RBAC User Directory -->
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">Role-Based Access Control &amp; User Directory</div>
+              <div class="card-subtitle">5 Roles: Super Admin, City Admin, Traffic Dept (BTP), Electricity Dept (BESCOM), Water Dept (BWSSB)</div>
+            </div>
+            <div class="table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Full Name</th>
+                    <th>Email Address</th>
+                    <th>Assigned Role</th>
+                    <th>Department</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody id="admin-users-table-body">
+                  <!-- Dynamically populated -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============================================== -->
+        <!-- VIEW 13: SETTINGS -->
+        <!-- ============================================== -->
+        <section class="view-section" id="view-settings">
+          <div class="card" style="margin-bottom:16px;">
+            <div class="card-header">
+              <div class="card-title">System Infrastructure &amp; Diagnostics</div>
+              <div class="card-subtitle">Service heartbeats, database status, ML registries, and active streams</div>
+            </div>
+            <div id="settings-diagnostics-container">
+              <!-- Dynamically populated -->
+            </div>
+          </div>
+
+          <!-- Preferences & Emergency Reset -->
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">Platform Preferences &amp; Maintenance</div>
+              <div class="card-subtitle">Notification behavior, tile rendering, and baseline state restoration</div>
+            </div>
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;padding:8px 0;">
+              <div style="background:var(--bg-surface);padding:14px;border-radius:6px;border:1px solid var(--border-color);">
+                <div style="font-weight:600;color:#fff;margin-bottom:4px;">Audio / Chime Alerts</div>
+                <div style="font-size:11px;color:#9CA3AF;margin-bottom:10px;">Play soft notification tone when a critical cascade is detected.</div>
+                <label style="display:flex;align-items:center;gap:8px;font-size:12px;color:#fff;cursor:pointer;">
+                  <input type="checkbox" id="setting-pref-audio" checked> Enable Audible Alert Tone
+                </label>
+              </div>
+
+              <div style="background:var(--bg-surface);padding:14px;border-radius:6px;border:1px solid var(--border-color);">
+                <div style="font-weight:600;color:#fff;margin-bottom:4px;">Auto-Center Map on Incidents</div>
+                <div style="font-size:11px;color:#9CA3AF;margin-bottom:10px;">Automatically pan the Digital Twin view when an incident is clicked.</div>
+                <label style="display:flex;align-items:center;gap:8px;font-size:12px;color:#fff;cursor:pointer;">
+                  <input type="checkbox" id="setting-pref-autocenter" checked> Pan to Incident Location
+                </label>
+              </div>
+
+              <div style="background:var(--bg-surface);padding:14px;border-radius:6px;border:1px solid var(--border-color);">
+                <div style="font-weight:600;color:#EF4444;margin-bottom:4px;">Emergency Baseline Reset</div>
+                <div style="font-size:11px;color:#9CA3AF;margin-bottom:10px;">Re-initialize all 18 Bengaluru assets and resolve simulated incidents.</div>
+                <button class="btn-danger" style="font-size:11px;padding:6px 14px;" onclick="app.resetDemoState()">
+                  <i class="fa-solid fa-rotate-left"></i> Restore Bengaluru Baseline
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+      </div>
+    </main>
+
+  </div>
+
+  <!-- MODAL 1: CREATE INCIDENT -->
+  <div class="modal-overlay" id="modal-create-incident">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 style="color:#fff;font-size:15px;">Register Municipal Incident</h3>
+        <button class="modal-close">&times;</button>
+      </div>
+      <form id="form-create-incident">
+        <div style="margin-bottom:12px;">
+          <label style="font-size:11px;color:var(--text-muted);">Incident Title</label>
+          <input type="text" id="inc-form-title" class="form-control" required placeholder="e.g. Water Main Rupture on East Freight Road">
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px;">
+          <div>
+            <label style="font-size:11px;color:var(--text-muted);">Category</label>
+            <select id="inc-form-category" class="form-control">
+              <option value="traffic">Traffic</option>
+              <option value="electricity">Electricity</option>
+              <option value="water">Water</option>
+              <option value="cross_system">Cross-System</option>
+            </select>
+          </div>
+          <div>
+            <label style="font-size:11px;color:var(--text-muted);">Severity</label>
+            <select id="inc-form-severity" class="form-control">
+              <option value="low">Low</option>
+              <option value="medium">Medium</option>
+              <option value="high" selected>High</option>
+              <option value="critical">Critical</option>
+            </select>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px;">
+          <div>
+            <label style="font-size:11px;color:var(--text-muted);">Urban Sector</label>
+            <select id="inc-form-sector" class="form-control">
+              <option value="Sector 1 - Downtown Core">Sector 1 - Downtown Core</option>
+              <option value="Sector 2 - North Tech Corridor">Sector 2 - North Tech Corridor</option>
+              <option value="Sector 3 - West River Suburbs">Sector 3 - West River Suburbs</option>
+              <option value="Sector 4 - East Industrial Park">Sector 4 - East Industrial Park</option>
+              <option value="Sector 5 - South Civic & Medical">Sector 5 - South Civic & Medical</option>
+            </select>
+          </div>
+          <div>
+            <label style="font-size:11px;color:var(--text-muted);">Department Assigned</label>
+            <select id="inc-form-dept" class="form-control">
+              <option value="admin">Administration</option>
+              <option value="traffic">Traffic Dept</option>
+              <option value="electricity">Electricity Dept</option>
+              <option value="water">Water Dept</option>
+            </select>
+          </div>
+        </div>
+        <div style="margin-bottom:12px;">
+          <label style="font-size:11px;color:var(--text-muted);">Location Name</label>
+          <input type="text" id="inc-form-location" class="form-control" required placeholder="e.g. East Industrial Highway KM 14">
+        </div>
+        <div style="margin-bottom:16px;">
+          <label style="font-size:11px;color:var(--text-muted);">Description</label>
+          <textarea id="inc-form-desc" class="form-control" rows="3" required placeholder="Describe observed physical condition and preliminary readings..."></textarea>
+        </div>
+        <div style="display:flex;justify-content:flex-end;gap:8px;">
+          <button type="button" class="btn-secondary modal-cancel">Cancel</button>
+          <button type="submit" class="btn-primary">Create Incident</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL 2: RESOLVE / MANAGE INCIDENT -->
+  <div class="modal-overlay" id="modal-resolve-incident">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 style="color:#fff;font-size:15px;" id="resolve-incident-title">Manage Incident</h3>
+        <button class="modal-close">&times;</button>
+      </div>
+      <input type="hidden" id="resolve-incident-id">
+      <div style="margin-bottom:12px;">
+        <label style="font-size:11px;color:var(--text-muted);">Lifecycle Status</label>
+        <select id="resolve-incident-status-select" class="form-control">
+          <option value="investigating">Investigating</option>
+          <option value="assigned">Assigned</option>
+          <option value="resolved">Resolved</option>
+        </select>
+      </div>
+      <div style="margin-bottom:16px;">
+        <label style="font-size:11px;color:var(--text-muted);">Investigation / Resolution Notes</label>
+        <textarea id="resolve-incident-notes" class="form-control" rows="3" placeholder="Document investigation findings, dispatched crews, and verification checks..."></textarea>
+      </div>
+      <div style="display:flex;justify-content:flex-end;gap:8px;">
+        <button type="button" class="btn-secondary modal-cancel">Cancel</button>
+        <button type="button" class="btn-primary" onclick="app.confirmResolveIncident()">Update Incident</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 3: LOGIN & AUTHENTICATION -->
+  <div class="modal-overlay" id="modal-auth">
+    <div class="modal-card" style="width:420px;">
+      <div class="modal-header">
+        <h3 style="color:#fff;font-size:15px;">CITYSYNC Platform Access</h3>
+        <button class="modal-close">&times;</button>
+      </div>
+      <form id="form-user-login">
+        <div style="margin-bottom:12px;">
+          <label style="font-size:11px;color:var(--text-muted);">Username or Email</label>
+          <input type="text" id="auth-input-username" class="form-control" value="admin" required>
+        </div>
+        <div style="margin-bottom:16px;">
+          <label style="font-size:11px;color:var(--text-muted);">Password</label>
+          <input type="password" id="auth-input-password" class="form-control" value="admin123" required>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+          <button type="button" class="btn-secondary modal-cancel">Cancel</button>
+          <button type="submit" class="btn-primary">Sign In</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Leaflet JS -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
+  
+  <!-- Three.js 3D Engine & OrbitControls -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+  
+  <!-- Core Application Scripts -->
+  <script src="/static/js/api.js?v=2.3"></script>
+  <script src="/static/js/websocket.js?v=2.3"></script>
+  <script src="/static/js/charts.js?v=2.3"></script>
+  <script src="/static/js/three_twin.js?v=2.3"></script>
+  <script src="/static/js/map.js?v=2.3"></script>
+  <script src="/static/js/app.js?v=2.3"></script>
+</body>
+</html>
