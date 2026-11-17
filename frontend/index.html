@@ -356,13 +356,36 @@
           <div class="card" style="padding:0;overflow:hidden;position:relative;">
             <div class="map-wrapper" style="height:600px;">
               
-              <!-- 2D / 3D Digital Twin Mode Switcher -->
+              <!-- 2D / 3D / Split Mode Switcher -->
               <div class="map-filters mode-filters" style="top:14px;left:14px;right:auto;z-index:1001;">
                 <button class="filter-btn active" id="btn-mode-2d" onclick="cityMap.switchMode('2d')">
                   <i class="fa-solid fa-map"></i> 2D Tactical GIS
                 </button>
                 <button class="filter-btn" id="btn-mode-3d" onclick="cityMap.switchMode('3d')">
-                  <i class="fa-solid fa-cube" style="color:var(--accent-cyan)"></i> 3D Bengaluru Digital Twin
+                  <i class="fa-solid fa-cube" style="color:var(--accent-cyan)"></i> 3D Bengaluru Twin
+                </button>
+                <button class="filter-btn" id="btn-mode-split" onclick="cityMap.switchMode('split')">
+                  <i class="fa-solid fa-table-columns" style="color:var(--accent-emerald)"></i> ⚡ Split View (2D + 3D)
+                </button>
+              </div>
+
+              <!-- Bengaluru Whole City Zone Jump & BBMP Layers -->
+              <div style="position:absolute;top:54px;left:14px;z-index:1001;display:flex;gap:6px;align-items:center;">
+                <select id="select-city-zone" onchange="cityMap.jumpToZone(this.value)" style="background:rgba(10,15,29,0.92);color:#38BDF8;border:1px solid rgba(6,182,212,0.4);border-radius:4px;padding:4px 8px;font-size:11px;font-family:var(--font-mono);cursor:pointer;outline:none;box-shadow:0 4px 12px rgba(0,0,0,0.5);">
+                  <option value="">📍 Jump to Bengaluru Zone / Hub...</option>
+                  <option value="cbd">🏛️ CBD: Vidhana Soudha, MG Road & Cubbon Park</option>
+                  <option value="silkboard">🚦 South Hub: Central Silk Board Interchange</option>
+                  <option value="ecity">🚀 South Tech: Electronic City (Phase 1 & 2)</option>
+                  <option value="whitefield">💻 East Tech: Whitefield & ITPL</option>
+                  <option value="bellandur">🌊 Southeast: Bellandur Lake & ORR Tech Park</option>
+                  <option value="peenya">🏭 Northwest: Peenya Heavy Industrial Zone</option>
+                  <option value="hebbal">✈️ North Hub: Hebbal Flyover & Airport Gateway</option>
+                  <option value="ulsoor">💧 Central-East: Ulsoor Lake Reservoir</option>
+                  <option value="majestic">🚆 Central-West: Majestic KSR Rail & Metro Station</option>
+                  <option value="jayanagar">🌳 South Cultural: Jayanagar & Lalbagh</option>
+                </select>
+                <button class="filter-btn" id="btn-toggle-bbmp" style="font-size:10.5px;padding:4px 8px;background:rgba(10,15,29,0.92);color:var(--accent-cyan);" onclick="cityMap.toggleBBMPZones()">
+                  <i class="fa-solid fa-draw-polygon"></i> BBMP 8 Zones
                 </button>
               </div>
 
@@ -406,6 +429,9 @@
                   </button>
                   <button class="btn-secondary" id="btn-3d-audio" style="font-size:11px;background:rgba(13,19,34,0.9);backdrop-filter:blur(6px);" onclick="threeTwin.toggleAmbientAudio()">
                     <i class="fa-solid fa-volume-xmark"></i> Audio: OFF
+                  </button>
+                  <button class="btn-secondary" id="btn-ground-map" style="font-size:11px;background:rgba(13,19,34,0.9);backdrop-filter:blur(6px);" onclick="threeTwin.toggleWholeCityMap()">
+                    <i class="fa-solid fa-map-location-dot" style="color:var(--accent-cyan);"></i> <span id="label-ground-map">Map: Whole City ON</span>
                   </button>
 
                   <!-- Focus Hubs -->

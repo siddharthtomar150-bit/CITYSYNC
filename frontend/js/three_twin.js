@@ -57,6 +57,8 @@ class Bengaluru3DDigitalTwin {
     this.buildingWindowMaterials = [];
     this.streetLights = [];
     this.beaconLights = [];
+    this.cityMapTexture = null;
+    this.showWholeCityMap = true;
 
     // Weather & Atmosphere
     this.rainParticles = null;
@@ -203,21 +205,24 @@ class Bengaluru3DDigitalTwin {
   }
 
   // =========================================================================
-  // TERRAIN, WATER BODIES (LAKES) & TACTICAL GRID
+  // TERRAIN, WHOLE CITY MAP, WATER BODIES (LAKES) & TACTICAL GRID
   // =========================================================================
 
   buildTerrainLakesAndGrid() {
+    // Generate the Whole Bengaluru City Map Canvas Texture
+    this.cityMapTexture = this.generateWholeCityMapTexture();
+
     // Holographic Coordinate Grid
-    this.groundGrid = new THREE.GridHelper(700, 70, 0x06B6D4, 0x1E293B);
+    this.groundGrid = new THREE.GridHelper(720, 72, 0x06B6D4, 0x1E293B);
     this.groundGrid.position.y = -0.3;
     this.scene.add(this.groundGrid);
 
-    // Obsidian Ground Base Plane
+    // Ground Base Plane with Whole Bengaluru City Map Texture
     const groundGeo = new THREE.PlaneGeometry(720, 720, 32, 32);
     const groundMat = new THREE.MeshLambertMaterial({
-      color: 0x070B14,
+      map: this.cityMapTexture,
       transparent: true,
-      opacity: 0.96
+      opacity: 0.98
     });
     this.heatmapMesh = new THREE.Mesh(groundGeo, groundMat);
     this.heatmapMesh.rotation.x = -Math.PI / 2;
@@ -232,7 +237,7 @@ class Bengaluru3DDigitalTwin {
         color: idx % 2 === 0 ? 0x06B6D4 : 0x3B82F6,
         side: THREE.DoubleSide,
         transparent: true,
-        opacity: 0.24 - (idx * 0.05)
+        opacity: 0.22 - (idx * 0.04)
       });
       const ring = new THREE.Mesh(ringGeo, ringMat);
       ring.rotation.x = -Math.PI / 2;
@@ -249,6 +254,219 @@ class Bengaluru3DDigitalTwin {
 
     // 3. Sankey Tank (Northwest Bengaluru / Sadashivanagar)
     this.createBengaluruLake(-35, -70, 24, 18, 'Sankey Tank Reservoir', 'Built 1882 by Col. Richard Sankey • 15 Hectares');
+  }
+
+  // --- High-Resolution 2048x2048 Whole Bengaluru Metropolitan City Map ---
+  generateWholeCityMapTexture() {
+    const canvas = document.createElement('canvas');
+    canvas.width = 2048;
+    canvas.height = 2048;
+    const ctx = canvas.getContext('2d');
+
+    // 1. Base Dark Metropolitan Terrain
+    ctx.fillStyle = '#070B16';
+    ctx.fillRect(0, 0, 2048, 2048);
+
+    // Subtle 64px Grid Lines
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.035)';
+    ctx.lineWidth = 1;
+    for (let i = 0; i < 2048; i += 64) {
+      ctx.beginPath(); ctx.moveTo(i, 0); ctx.lineTo(i, 2048); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(0, i); ctx.lineTo(2048, i); ctx.stroke();
+    }
+
+    // 2. BBMP 8 Administrative Zones with tinted translucent fills
+    const zones = [
+      { name: 'YELAHANKA ZONE (NORTH)', fill: 'rgba(45, 212, 191, 0.05)', stroke: 'rgba(45, 212, 191, 0.4)', pts: [[750, 150], [1480, 150], [1420, 680], [720, 680]] },
+      { name: 'DASARAHALLI ZONE (NW)', fill: 'rgba(251, 146, 60, 0.05)', stroke: 'rgba(251, 146, 60, 0.4)', pts: [[320, 480], [720, 480], [740, 850], [300, 850]] },
+      { name: 'WEST ZONE (CENTRAL-W)', fill: 'rgba(129, 140, 248, 0.05)', stroke: 'rgba(129, 140, 248, 0.4)', pts: [[600, 850], [1000, 850], [1000, 1200], [550, 1200]] },
+      { name: 'EAST ZONE (CBD / INDIRANAGAR)', fill: 'rgba(56, 189, 248, 0.06)', stroke: 'rgba(56, 189, 248, 0.45)', pts: [[1000, 800], [1450, 800], [1450, 1200], [1000, 1200]] },
+      { name: 'MAHADEVAPURA (WHITEFIELD / ORR)', fill: 'rgba(244, 114, 182, 0.06)', stroke: 'rgba(244, 114, 182, 0.45)', pts: [[1450, 680], [1980, 680], [1980, 1380], [1450, 1380]] },
+      { name: 'SOUTH ZONE (JAYANAGAR / BTM)', fill: 'rgba(52, 211, 153, 0.05)', stroke: 'rgba(52, 211, 153, 0.4)', pts: [[750, 1200], [1220, 1200], [1220, 1600], [750, 1600]] },
+      { name: 'BOMMANAHALLI (ELECTRONIC CITY)', fill: 'rgba(251, 191, 36, 0.06)', stroke: 'rgba(251, 191, 36, 0.45)', pts: [[1220, 1240], [1680, 1240], [1680, 1960], [1150, 1960]] },
+      { name: 'RR NAGAR (SOUTH-WEST)', fill: 'rgba(167, 139, 250, 0.05)', stroke: 'rgba(167, 139, 250, 0.4)', pts: [[350, 1200], [750, 1200], [750, 1800], [280, 1800]] }
+    ];
+
+    zones.forEach(z => {
+      ctx.beginPath();
+      z.pts.forEach((p, idx) => {
+        if (idx === 0) ctx.moveTo(p[0], p[1]);
+        else ctx.lineTo(p[0], p[1]);
+      });
+      ctx.closePath();
+      ctx.fillStyle = z.fill;
+      ctx.fill();
+      ctx.strokeStyle = z.stroke;
+      ctx.setLineDash([10, 10]);
+      ctx.lineWidth = 2.5;
+      ctx.stroke();
+      ctx.setLineDash([]);
+    });
+
+    // 3. Real Natural Water Reservoirs & Lakes
+    const lakes = [
+      { name: 'Ulsoor Lake', x: 1240, y: 960, rx: 75, ry: 48 },
+      { name: 'Bellandur Lake Catchment', x: 1480, y: 1220, rx: 115, ry: 68 },
+      { name: 'Varthur Lake', x: 1740, y: 1240, rx: 85, ry: 52 },
+      { name: 'Hebbal Lake', x: 1050, y: 680, rx: 70, ry: 42 },
+      { name: 'Sankey Tank', x: 920, y: 800, rx: 42, ry: 32 },
+      { name: 'Agara Lake', x: 1280, y: 1260, rx: 48, ry: 32 },
+      { name: 'Madivala Lake', x: 1160, y: 1280, rx: 58, ry: 40 },
+      { name: 'Nagavara Lake', x: 1220, y: 640, rx: 54, ry: 36 },
+      { name: 'Yelahanka Lake', x: 1050, y: 440, rx: 65, ry: 42 }
+    ];
+
+    lakes.forEach(l => {
+      ctx.beginPath();
+      ctx.ellipse(l.x, l.y, l.rx, l.ry, 0, 0, Math.PI * 2);
+      ctx.fillStyle = '#0284C7';
+      ctx.fill();
+      ctx.strokeStyle = '#38BDF8';
+      ctx.lineWidth = 2.5;
+      ctx.stroke();
+
+      ctx.fillStyle = '#BAE6FD';
+      ctx.font = 'bold 17px Inter, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText(l.name, l.x, l.y + 5);
+    });
+
+    // 4. Parks & Urban Green Lungs
+    const parks = [
+      { name: 'Cubbon Park (300 Acres)', x: 1050, y: 980, w: 95, h: 65 },
+      { name: 'Lalbagh Botanical Gardens (240 Acres)', x: 1030, y: 1120, w: 90, h: 75 },
+      { name: 'Jnana Bharathi Forest Reserve', x: 620, y: 1280, w: 150, h: 110 }
+    ];
+
+    parks.forEach(p => {
+      ctx.fillStyle = 'rgba(5, 150, 105, 0.45)';
+      ctx.strokeStyle = '#10B981';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.roundRect ? ctx.roundRect(p.x - p.w/2, p.y - p.h/2, p.w, p.h, 12) : ctx.rect(p.x - p.w/2, p.y - p.h/2, p.w, p.h);
+      ctx.fill();
+      ctx.stroke();
+
+      ctx.fillStyle = '#6EE7B7';
+      ctx.font = 'bold 15px Inter, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText(p.name, p.x, p.y + 5);
+    });
+
+    // 5. Complete Arterial Expressway & Ring Road Network
+    // Outer Ring Road (ORR) - Complete 60km Circular Beltway
+    ctx.strokeStyle = '#FACC15';
+    ctx.lineWidth = 8;
+    ctx.beginPath();
+    ctx.ellipse(1080, 1024, 540, 430, 0, 0, Math.PI * 2);
+    ctx.stroke();
+
+    // NICE Peripheral Road Outer Arc (Southwest Bypass)
+    ctx.strokeStyle = '#38BDF8';
+    ctx.lineWidth = 9;
+    ctx.beginPath();
+    ctx.arc(1024, 1024, 790, 0.65 * Math.PI, 1.45 * Math.PI, false);
+    ctx.stroke();
+
+    // Major Radial Arterials
+    const radials = [
+      { pts: [[1150, 1240], [1280, 1450], [1400, 1750], [1480, 1980]], name: 'HOSUR ROAD / ELECTRONIC CITY (NH-44)' },
+      { pts: [[1050, 920], [1050, 680], [1050, 420], [1050, 80]], name: 'BELLARY ROAD / AIRPORT EXPRESSWAY (NH-44)' },
+      { pts: [[950, 920], [780, 820], [540, 680], [250, 480]], name: 'TUMKUR ROAD / PEENYA (NH-48)' },
+      { pts: [[1100, 1000], [1300, 1020], [1550, 1020], [1850, 980]], name: 'OLD AIRPORT ROAD -> WHITEFIELD ITPL' },
+      { pts: [[950, 1040], [780, 1150], [580, 1300], [280, 1520]], name: 'MYSORE ROAD / KENGERI (NH-275)' },
+      { pts: [[1180, 1140], [1350, 1240], [1580, 1420], [1850, 1650]], name: 'SARJAPUR ROAD' },
+      { pts: [[1050, 1120], [1050, 1340], [1050, 1620], [1050, 1980]], name: 'BANNERGHATTA ROAD' },
+      { pts: [[980, 1120], [880, 1320], [780, 1600], [680, 1980]], name: 'KANAKAPURA ROAD (NH-209)' },
+      { pts: [[1180, 960], [1380, 920], [1620, 880], [1980, 840]], name: 'OLD MADRAS ROAD / KR PURAM (NH-75)' }
+    ];
+
+    radials.forEach(r => {
+      ctx.strokeStyle = '#475569';
+      ctx.lineWidth = 7;
+      ctx.beginPath();
+      r.pts.forEach((p, idx) => {
+        if (idx === 0) ctx.moveTo(p[0], p[1]);
+        else ctx.lineTo(p[0], p[1]);
+      });
+      ctx.stroke();
+
+      // Centerline yellow dash
+      ctx.strokeStyle = '#FACC15';
+      ctx.lineWidth = 2;
+      ctx.setLineDash([14, 14]);
+      ctx.beginPath();
+      r.pts.forEach((p, idx) => {
+        if (idx === 0) ctx.moveTo(p[0], p[1]);
+        else ctx.lineTo(p[0], p[1]);
+      });
+      ctx.stroke();
+      ctx.setLineDash([]);
+    });
+
+    // 6. Typography Labels for 25+ Neighborhoods & Major Hubs
+    const labels = [
+      { text: "KEMPEGOWDA INT'L AIRPORT CORRIDOR (NH-44)", x: 1050, y: 130, col: '#38BDF8', size: 23 },
+      { text: "YELAHANKA SATELLITE TOWN", x: 1050, y: 370, col: '#2DD4BF', size: 20 },
+      { text: "HEBBAL FLYOVER INTERCHANGE", x: 1050, y: 640, col: '#FBBF24', size: 21 },
+      { text: "PEENYA HEAVY INDUSTRIAL ESTATE", x: 520, y: 640, col: '#FB923C', size: 21 },
+      { text: "GORAGUNTEPALYA FREIGHT GATEWAY", x: 680, y: 780, col: '#CBD5E1', size: 17 },
+      { text: "MALLESHWARAM", x: 860, y: 840, col: '#CBD5E1', size: 17 },
+      { text: "RAJAJINAGAR IT COMPLEX", x: 740, y: 920, col: '#CBD5E1', size: 17 },
+      { text: "MAJESTIC (KSR RAIL & METRO INTERCHANGE)", x: 880, y: 960, col: '#A78BFA', size: 19 },
+      { text: "VIDHANA SOUDHA (STATE LEGISLATURE)", x: 1050, y: 940, col: '#FACC15', size: 21 },
+      { text: "MG ROAD / BRIGADE ROAD CBD", x: 1150, y: 990, col: '#38BDF8', size: 19 },
+      { text: "INDIRANAGAR 100FT ROAD", x: 1310, y: 980, col: '#CBD5E1', size: 18 },
+      { text: "KORAMANGALA TECH STARTUP HUB", x: 1180, y: 1140, col: '#34D399', size: 19 },
+      { text: "HSR LAYOUT (SECTORS 1-7)", x: 1290, y: 1220, col: '#CBD5E1', size: 18 },
+      { text: "BTM LAYOUT", x: 1080, y: 1220, col: '#CBD5E1', size: 17 },
+      { text: "JAYANAGAR RESIDENTIAL HUB", x: 940, y: 1180, col: '#34D399', size: 19 },
+      { text: "CENTRAL SILK BOARD MULTI-LEVEL FLYOVER", x: 1150, y: 1260, col: '#EF4444', size: 21 },
+      { text: "BELLANDUR ORR TECH CORRIDOR (ECOSPACE)", x: 1540, y: 1160, col: '#F472B6', size: 21 },
+      { text: "MARATHAHALLI JUNCTION", x: 1570, y: 1040, col: '#CBD5E1', size: 18 },
+      { text: "WHITEFIELD ITPL TECH PARK", x: 1850, y: 960, col: '#F472B6', size: 23 },
+      { text: "ELECTRONIC CITY PHASE 1 & 2", x: 1440, y: 1760, col: '#FBBF24', size: 23 },
+      { text: "KENGERI SATELLITE TOWN", x: 440, y: 1360, col: '#A78BFA', size: 19 },
+      { text: "NICE PERIPHERAL EXPRESSWAY", x: 620, y: 1550, col: '#38BDF8', size: 19 },
+      { text: "OUTER RING ROAD (ORR - 60KM LOOP)", x: 1080, y: 1470, col: '#FACC15', size: 20 }
+    ];
+
+    labels.forEach(lb => {
+      ctx.font = `bold ${lb.size}px 'Inter', sans-serif`;
+      const textWidth = ctx.measureText(lb.text).width;
+      ctx.fillStyle = 'rgba(8, 12, 22, 0.9)';
+      ctx.roundRect ? ctx.roundRect(lb.x - textWidth/2 - 8, lb.y - lb.size, textWidth + 16, lb.size + 10, 4) : ctx.fillRect(lb.x - textWidth/2 - 8, lb.y - lb.size, textWidth + 16, lb.size + 10);
+      ctx.fill();
+      ctx.strokeStyle = lb.col;
+      ctx.lineWidth = 1.2;
+      ctx.stroke();
+
+      ctx.fillStyle = lb.col;
+      ctx.textAlign = 'center';
+      ctx.fillText(lb.text, lb.x, lb.y);
+    });
+
+    const tex = new THREE.CanvasTexture(canvas);
+    tex.minFilter = THREE.LinearFilter;
+    tex.magFilter = THREE.LinearFilter;
+    return tex;
+  }
+
+  toggleWholeCityMap() {
+    this.showWholeCityMap = !this.showWholeCityMap;
+    if (!this.heatmapMesh) return;
+    if (this.showWholeCityMap) {
+      this.heatmapMesh.material.map = this.cityMapTexture;
+      this.heatmapMesh.material.color.setHex(0xFFFFFF);
+      this.heatmapMesh.material.needsUpdate = true;
+    } else {
+      this.heatmapMesh.material.map = null;
+      this.heatmapMesh.material.color.setHex(0x070B14);
+      this.heatmapMesh.material.needsUpdate = true;
+    }
+    const label = document.getElementById('label-ground-map');
+    if (label) label.textContent = this.showWholeCityMap ? 'Map: Whole City ON' : 'Map: Tactical Grid';
+    if (window.app) window.app.showToast(this.showWholeCityMap ? 'Whole Bengaluru City Map Surface: ACTIVE' : 'Cybernetic Grid Mode: ACTIVE', 'info');
   }
 
   createBengaluruLake(x, z, radiusX, radiusZ, name, description) {
@@ -1303,16 +1521,21 @@ class Bengaluru3DDigitalTwin {
 
     if (type === 'traffic') {
       this.heatmapMesh.material.color.setHex(0xEF4444);
-      this.heatmapMesh.material.opacity = 0.28;
+      this.heatmapMesh.material.opacity = 0.35;
     } else if (type === 'energy') {
       this.heatmapMesh.material.color.setHex(0xEAB308);
-      this.heatmapMesh.material.opacity = 0.28;
+      this.heatmapMesh.material.opacity = 0.35;
     } else if (type === 'water') {
       this.heatmapMesh.material.color.setHex(0x3B82F6);
-      this.heatmapMesh.material.opacity = 0.28;
+      this.heatmapMesh.material.opacity = 0.35;
     } else {
-      this.heatmapMesh.material.color.setHex(0x070B14);
-      this.heatmapMesh.material.opacity = 0.96;
+      if (this.showWholeCityMap) {
+        this.heatmapMesh.material.color.setHex(0xFFFFFF);
+        this.heatmapMesh.material.opacity = 0.98;
+      } else {
+        this.heatmapMesh.material.color.setHex(0x070B14);
+        this.heatmapMesh.material.opacity = 0.96;
+      }
     }
   }
 
