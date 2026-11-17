@@ -30,38 +30,12 @@ In almost every modern city today, municipal departments operate in completely i
 
 ---
 
-## 🏙️ 2. Two Flagship Digital Twin Experiences
+## 🏙️ 2. Bengaluru Municipal Digital Twin Platform
 
-CITYSYNC features a top-level **City Switcher** allowing instant 1-click toggling between two world-class smart city deployments:
-
-```
-[ 🇦🇪 Dubai Digital Twin ]   ⟷   [ 🇮🇳 Bengaluru Digital Twin ]
-```
-
-### 🇦🇪 1. Dubai Digital Twin (*Urban Mobility & Smart City Intelligence*)
-A hyper-realistic, procedural **Three.js WebGL 3D Digital Twin** modeling the iconic skyline and arterial mobility infrastructure of Dubai:
-* 🏛️ **World-Famous Landmarks**:
-  * **Burj Khalifa**: 828m stepped tapering spire with flashing summit aviation beacon and dynamic uplighting.
-  * **Palm Jumeirah**: Complete palm archipelago featuring the central trunk, 16 residential fronds, Atlantis resort, and outer protective crescent breakwater.
-  * **Burj Al Arab**: Distinctive curved sail architecture perched on an offshore artificial island with helipad and access causeway.
-  * **Dubai Frame**: 150m golden monumental viewing portal in Zabeel Park.
-* 🚦 **Sheikh Zayed Road (SZR) Congestion Ribbons**:
-  * 12-lane highway arterial with flowing, glowing traffic heat ribbons (Red, Orange, Amber, and Green) representing real-time traffic density.
-* 🚆 **Dubai Metro Red Line**:
-  * Elevated concrete viaduct with an animated 5-car driverless metro train smoothly gliding past high-rise towers with illuminated headlights.
-* 📊 **Executive Glass HUD Cards**:
-  * **Circular Radial Traffic Meter**: 72% High congestion indicator with 5-tier velocity legend and 24h rolling traffic curve.
-  * **Air Quality (AQI) Meter**: Live AQI 42 ("Good"), 2×3 pollutant breakdown (`PM2.5`, `PM10`, `NO2`, `O3`, `CO`, `SO2`), and 4-slot hourly forecast.
-  * **Agentic AI Copilot**: Predictive transit recommendations with an interactive **`[ Approve Action ]`** button that dynamically retimes signals and dispatches trains.
-  * **Bottom 7-Card Telemetry Deck**: Data status (128 sources, 120ms latency), Mobility Mode Share donut chart, Public transit passenger counts (490K+), Metro accessibility isochrone graphic, Sustainability overview, and live scrolling city notifications ticker.
-
----
-
-### 🇮🇳 2. Bengaluru Digital Twin (*Tactical Cross-System Operations*)
-A high-precision operational digital twin focused on tactical municipal coordination across Greater Bengaluru:
+A high-precision operational smart city digital twin focused on tactical municipal coordination across Greater Bengaluru:
 * 🗺️ **Dual GIS Modes**:
   * **2D Tactical GIS (Leaflet.js)**: Dark-themed tactical map with 18 physical SCADA nodes across Central Silk Board, Hebbal Flyover, Electronic City, Whitefield, and Peenya Industrial Estate.
-  * **3D Textured Urban Twin (Three.js)**: 120+ textured high-rise buildings, glowing roads, Namma Metro Purple Line with moving train, police surveillance drone camera, and whole-city satellite ground plane.
+  * **3D Textured Urban Twin (Three.js)**: 120+ textured high-rise buildings, glowing arterial roads, Namma Metro Purple Line with moving train, police surveillance drone camera, and whole-city satellite ground plane.
   * **⚡ Split View Mode**: Side-by-side synchronized 2D GIS and 3D WebGL viewing.
 * 🔗 **Cross-System Dependency Engine**:
   * Real-time topological correlation tracking multi-sector cascade failures across **BTP (Traffic Police)**, **BESCOM (Electricity)**, and **BWSSB (Water Supply)**.
@@ -72,10 +46,10 @@ A high-precision operational digital twin focused on tactical municipal coordina
 
 | # | Action | How to Do It | What Happens |
 | :-: | :--- | :--- | :--- |
-| **1** | **Switch Between Cities** | Click `[ 🇦🇪 Dubai Twin ]` or `[ 🇮🇳 Bengaluru ]` in the top bar | Seamlessly switches between the Dubai 3D skyline and the Bengaluru municipal GIS platform. |
-| **2** | **Approve an AI Action** | In Dubai mode, click the green `[ Approve Action ]` button | Watch the AI execute an autonomous dispatch: Metro frequency increases by 15%, and highway traffic congestion drops from 72% down to 64%! |
-| **3** | **Trigger a City Crisis** | In Bengaluru mode, click `[ RUN CITY CRISIS SIMULATION ]` | Watch a 10-step multi-sector disaster unfold across power, water, and traffic, and see the Cross-System Engine resolve it. |
-| **4** | **3D Camera Modes** | In 3D twin, switch between Orbit, Drone, Metro Driver, and Tour | Fly around high-rises and follow transit corridors in real-time 3D! |
+| **1** | **Toggle 2D & 3D Twin Modes** | Click `[ 2D GIS ]`, `[ 3D Twin ]`, or `[ ⚡ Split ]` | Instantly switches between high-performance 2D GIS mapping and 3D textured urban digital twin. |
+| **2** | **3D Tactical Camera Flyovers** | Select `[ Orbit ]`, `[ Drone ]`, `[ Metro ]`, or `[ Tour ]` | Fly around high-rise towers, ride along the Namma Metro Purple Line track, or take an automated aerial city tour. |
+| **3** | **Trigger a City Crisis** | Click `[ RUN CITY CRISIS SIMULATION ]` | Watch a 10-step multi-sector disaster unfold across power, water, and traffic, and see the Cross-System Engine resolve it. |
+| **4** | **Inspect Infrastructure** | Click any facility node on the map | Opens the real-time SCADA telemetry drawer showing live power draw, water pressure, and traffic density. |
 
 ---
 
