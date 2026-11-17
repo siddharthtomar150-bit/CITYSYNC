@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: citysync
+    env: python
+    region: oregon
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: python -m uvicorn app.main:app --app-dir backend --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.8
+      - key: ENVIRONMENT
+        value: production
+      - key: SIMULATION_AUTO_START
+        value: "true"
+      - key: SIMULATION_INTERVAL_SECONDS
+        value: "4"

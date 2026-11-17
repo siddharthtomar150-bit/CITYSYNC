@@ -1,0 +1,24 @@
+# Git & version control
+.git
+.gitignore
+
+# Python caches & virtual environments
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+.venv/
+env/
+venv/
+ENV/
+.pytest_cache/
+*.log
+
+# Database files (sqlite generated at runtime)
+citysync.db
+*.sqlite3
+
+# OS files
+.DS_Store
+Thumbs.db

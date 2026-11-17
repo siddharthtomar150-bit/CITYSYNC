@@ -150,7 +150,22 @@ test_simulation_engine_start_stop                 PASSED [100%]
 
 ---
 
-## 📖 8. Plain-English Glossary of Terms
+## 🚀 8. Production Cloud Deployment
+
+Deploy CITYSYNC to the cloud in under 3 minutes with zero configuration:
+
+* **Render.com (Free Web Service)**: Connect your GitHub account, link `siddharthtomar150-bit/CITYSYNC`, set start command to `python -m uvicorn app.main:app --app-dir backend --host 0.0.0.0 --port $PORT`, and deploy. Pre-configured with [`render.yaml`](render.yaml).
+* **Railway.app (Containerized)**: Connect the repository; Railway will automatically detect [`Dockerfile`](Dockerfile) and deploy. Pre-configured with [`railway.json`](railway.json).
+* **Docker / Docker Compose**:
+  ```bash
+  docker compose up -d --build
+  ```
+
+For full step-by-step instructions, see [`DEPLOYMENT.md`](DEPLOYMENT.md).
+
+---
+
+## 📖 9. Plain-English Glossary of Terms
 
 * **Digital Twin**: A real-time virtual 3D simulation of a physical city that mirrors real roads, buildings, and infrastructure.
 * **AQI (Air Quality Index)**: A universal score measuring air cleanliness. `0–50` is Good, `51–100` is Moderate, `100+` indicates unhealthy pollution.
