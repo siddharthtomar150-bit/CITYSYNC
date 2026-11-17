@@ -1525,8 +1525,5 @@ window.closeHowItWorksModal = function() {
   const modal = document.getElementById('modal-how-it-works');
   if (modal) modal.style.display = 'none';
 };
-  const modal = document.getElementById('modal-how-it-works');
-  if (modal) modal.style.display = 'none';
-};
 
 
