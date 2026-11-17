@@ -380,23 +380,77 @@
               <!-- 3D Three.js Digital Twin Container -->
               <div id="three-container" style="width:100%;height:100%;position:absolute;top:0;left:0;display:none;background:#070B14;z-index:900;">
                 
-                <!-- 3D HUD Navigation Controls -->
-                <div style="position:absolute;bottom:16px;left:16px;z-index:950;display:flex;gap:6px;flex-wrap:wrap;">
+                <!-- 3D Camera Modes Top-Center Ribbon -->
+                <div style="position:absolute;top:16px;left:50%;transform:translateX(-50%);z-index:950;display:flex;gap:6px;background:rgba(10,15,29,0.92);padding:4px 8px;border-radius:6px;border:1px solid rgba(6,182,212,0.3);box-shadow:0 8px 24px rgba(0,0,0,0.6);">
+                  <button class="filter-btn active cam-mode-btn" id="btn-cam-orbit" style="font-size:10.5px;padding:4px 9px;" onclick="threeTwin.setCameraMode('orbit')">
+                    <i class="fa-solid fa-satellite"></i> Tactical Orbit
+                  </button>
+                  <button class="filter-btn cam-mode-btn" id="btn-cam-drone" style="font-size:10.5px;padding:4px 9px;" onclick="threeTwin.setCameraMode('drone')">
+                    <i class="fa-solid fa-helicopter" style="color:var(--accent-cyan)"></i> Drone FPV Cam
+                  </button>
+                  <button class="filter-btn cam-mode-btn" id="btn-cam-metro" style="font-size:10.5px;padding:4px 9px;" onclick="threeTwin.setCameraMode('metro')">
+                    <i class="fa-solid fa-train-subway" style="color:#A78BFA"></i> Metro Driver Cab
+                  </button>
+                  <button class="filter-btn cam-mode-btn" id="btn-cam-tour" style="font-size:10.5px;padding:4px 9px;" onclick="threeTwin.setCameraMode('tour')">
+                    <i class="fa-solid fa-plane" style="color:var(--accent-amber)"></i> Cinematic Flyover
+                  </button>
+                </div>
+
+                <!-- 3D HUD Navigation Controls (Bottom Bar) -->
+                <div style="position:absolute;bottom:16px;left:16px;z-index:950;display:flex;gap:6px;flex-wrap:wrap;max-width:75%;">
                   <button class="btn-secondary" style="font-size:11px;background:rgba(13,19,34,0.9);backdrop-filter:blur(6px);" onclick="threeTwin.toggleAutoRotate()">
                     <i class="fa-solid fa-arrows-rotate" style="color:var(--accent-cyan);"></i> <span id="label-3d-rotate">Auto-Rotate 3D</span>
                   </button>
                   <button class="btn-secondary" style="font-size:11px;background:rgba(13,19,34,0.9);backdrop-filter:blur(6px);" onclick="threeTwin.resetCamera()">
-                    <i class="fa-solid fa-crosshairs"></i> Reset Camera
+                    <i class="fa-solid fa-crosshairs"></i> Reset
                   </button>
-                  <button class="btn-secondary" style="font-size:11px;background:rgba(13,19,34,0.9);backdrop-filter:blur(6px);" onclick="threeTwin.focusHub('silkboard')">
-                    Silk Board Focus
+                  <button class="btn-secondary" id="btn-3d-audio" style="font-size:11px;background:rgba(13,19,34,0.9);backdrop-filter:blur(6px);" onclick="threeTwin.toggleAmbientAudio()">
+                    <i class="fa-solid fa-volume-xmark"></i> Audio: OFF
                   </button>
-                  <button class="btn-secondary" style="font-size:11px;background:rgba(13,19,34,0.9);backdrop-filter:blur(6px);" onclick="threeTwin.focusHub('ecity')">
-                    Electronic City Focus
+
+                  <!-- Focus Hubs -->
+                  <button class="btn-secondary" style="font-size:10.5px;background:rgba(13,19,34,0.9);padding:4px 8px;" onclick="threeTwin.focusHub('silkboard')">
+                    Silk Board
                   </button>
-                  <button class="btn-secondary" style="font-size:11px;background:rgba(13,19,34,0.9);backdrop-filter:blur(6px);" onclick="threeTwin.focusHub('cbd')">
-                    Central CBD Focus
+                  <button class="btn-secondary" style="font-size:10.5px;background:rgba(13,19,34,0.9);padding:4px 8px;" onclick="threeTwin.focusHub('ecity')">
+                    Electronic City
                   </button>
+                  <button class="btn-secondary" style="font-size:10.5px;background:rgba(13,19,34,0.9);padding:4px 8px;" onclick="threeTwin.focusHub('cbd')">
+                    Vidhana Soudha
+                  </button>
+                  <button class="btn-secondary" style="font-size:10.5px;background:rgba(13,19,34,0.9);padding:4px 8px;" onclick="threeTwin.focusHub('whitefield')">
+                    Whitefield ITPL
+                  </button>
+                  <button class="btn-secondary" style="font-size:10.5px;background:rgba(13,19,34,0.9);padding:4px 8px;" onclick="threeTwin.focusHub('ulsoor')">
+                    Ulsoor Lake
+                  </button>
+
+                  <button class="btn-primary" style="font-size:11px;" onclick="threeTwin.openLiveCCTVFeed('Central Silk Board Junction')">
+                    <i class="fa-solid fa-video"></i> AI Traffic CCTV
+                  </button>
+
+                  <!-- 24h Time-of-Day Scrub Slider -->
+                  <div style="display:flex;align-items:center;gap:6px;background:rgba(13,19,34,0.85);padding:3px 8px;border-radius:4px;border:1px solid rgba(255,255,255,0.08);font-size:11px;">
+                    <i class="fa-regular fa-clock" style="color:var(--accent-amber);" title="Time of Day"></i>
+                    <input type="range" min="0" max="24" step="0.5" value="22" style="width:80px;accent-color:var(--accent-cyan);cursor:pointer;" oninput="threeTwin.setTimeOfDay(parseFloat(this.value))">
+                    <span id="label-3d-time" style="font-family:var(--font-mono);color:#fff;font-size:10px;">10:00 PM</span>
+                  </div>
+
+                  <!-- Atmosphere Presets -->
+                  <div style="display:flex;gap:4px;background:rgba(13,19,34,0.85);padding:3px;border-radius:4px;border:1px solid rgba(255,255,255,0.08);">
+                    <button class="btn-secondary" style="font-size:10px;padding:3px 6px;" title="Cyberpunk Night" onclick="threeTwin.setEnvironment('night')">🌙 Night</button>
+                    <button class="btn-secondary" style="font-size:10px;padding:3px 6px;" title="Golden Hour" onclick="threeTwin.setEnvironment('sunset')">🌅 Sunset</button>
+                    <button class="btn-secondary" style="font-size:10px;padding:3px 6px;" title="Daylight Tactical" onclick="threeTwin.setEnvironment('day')">☀️ Day</button>
+                    <button class="btn-secondary" style="font-size:10px;padding:3px 6px;" title="Monsoon Rain Storm with Lightning" onclick="threeTwin.setEnvironment('monsoon')">🌧️ Monsoon</button>
+                  </div>
+
+                  <!-- Heatmap Presets -->
+                  <div style="display:flex;gap:4px;background:rgba(13,19,34,0.85);padding:3px;border-radius:4px;border:1px solid rgba(255,255,255,0.08);">
+                    <button class="btn-secondary" style="font-size:10px;padding:3px 6px;" onclick="threeTwin.setHeatmap('none')">Grid</button>
+                    <button class="btn-secondary" style="font-size:10px;padding:3px 6px;color:#EF4444;" onclick="threeTwin.setHeatmap('traffic')">🚗 Traffic</button>
+                    <button class="btn-secondary" style="font-size:10px;padding:3px 6px;color:#EAB308;" onclick="threeTwin.setHeatmap('energy')">⚡ Grid</button>
+                    <button class="btn-secondary" style="font-size:10px;padding:3px 6px;color:#3B82F6;" onclick="threeTwin.setHeatmap('water')">💧 Water</button>
+                  </div>
                 </div>
 
                 <!-- 3D HUD Telemetry Specs Badge -->
@@ -406,8 +460,9 @@
                     BENGALURU 3D DIGITAL TWIN
                   </div>
                   <div>Coords: 12.9716° N, 77.5946° E • Elev: 920m ASL</div>
-                  <div>Infrastructure: 18 Geo-Telemetry Nodes Active</div>
-                  <div style="color:#64748B;font-size:9.5px;margin-top:4px;">Left-drag to Orbit • Scroll to Zoom • Click Node to Inspect</div>
+                  <div>120+ Textured Buildings • 18 SCADA Nodes</div>
+                  <div>Namma Metro Purple Line • Police Drone Cam</div>
+                  <div style="color:#64748B;font-size:9.5px;margin-top:4px;">Left-drag to Orbit • Scroll to Zoom • Click Building/Node for Dossier</div>
                 </div>
 
               </div>
@@ -445,6 +500,9 @@
                   <div id="drawer-incidents-list">
                     <!-- Dynamically populated -->
                   </div>
+                  <button class="btn-primary" style="width:100%;font-size:11.5px;margin-top:14px;padding:8px;justify-content:center;" onclick="threeTwin.openLiveCCTVFeed(document.getElementById('drawer-node-name').textContent)">
+                    <i class="fa-solid fa-video"></i> Open Live AI Surveillance Feed
+                  </button>
                 </div>
               </div>
 
